@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="icon" href="icons/header_logo.jpg" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Справка о Voxy</title>
+  <!-- Подключаем ваши основные стили, чтобы сайт выглядел единым -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ СТРАНИЦЫ С ЗАМЕТКОЙ */
+
+    /* Большая плашка на весь экран для контента */
+    .note-container {
+      background-color: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 40px; /* Большие просторные отступы внутри плашки */
+      margin-bottom: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Заголовок внутри плашки */
+    .note-container h2 {
+      color: #fff;
+      font-size: 28px;
+      margin-top: 0;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 15px;
+    }
+
+    /* Стили для абзацев текста */
+    .note-container p {
+      color: #b0b0b0;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    /* Стили для картинок в статье */
+    .note-image-box {
+      margin: 30px 0;
+      text-align: center;
+    }
+    .note-image-box img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid #444;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+    .image-caption {
+      display: block;
+      font-size: 13px;
+      color: #666;
+      margin-top: 8px;
+      font-style: italic;
+    }
+
+    /* Выделение важных мыслей / цитат */
+    .important-note {
+      background-color: #1a2421;
+      border-left: 4px solid #00ff88;
+      padding: 15px 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 25px 0;
+    }
+    .important-note p {
+      color: #00ff88;
+      margin: 0;
+      font-size: 15px;
+    }
+    /* --- СТИЛИ ДЛЯ ВИДЕО С YOUTUBE --- */
+    .video-wrapper {
+    position: relative;
+    
+    /* 🛠️ ОГРАНИЧИВАЕМ РАЗМЕР: видео больше не будет размером с грузовик */
+    width: 100%;
+    max-width: 850px;       /* Оптимальный крупный размер для видео на ПК */
+    margin: 30px auto;      /* auto отцентрирует плеер строго по центру плашки */
+    
+    /* Этот трюк с padding-bottom теперь рассчитывается от max-width */
+    padding-bottom: calc(min(100%, 850px) * 0.5625); 
+    height: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #444;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+
+    .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    }
+
+    /* --- СТИЛИ ДЛЯ БЛОКА СКАЧИВАНИЯ КОНФИГА --- */
+    .config-download-box {
+    background-color: #121212;
+    border: 1px dashed #007bff; /* Пунктирная синяя рамка */
+    border-radius: 12px;
+    padding: 20px;
+    margin: 30px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    }
+
+    /* На мобилках перестраиваем блок конфига в столбик */
+    @media (max-width: 600px) {
+        .config-download-box {
+            flex-direction: column;
+            text-align: center;
+        }
+    }
+
+    .config-info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    }
+
+    .config-title {
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    }
+
+    .config-subtitle {
+    color: #666;
+    font-size: 13px;
+    }
+
+    /* Кнопка скачивания */
+    .download-btn {
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+    }
+
+    .download-btn:hover {
+    background-color: #0056b3;
+    }
+    /* Специальные стили для шапки внутри статьи */
+    .note-header {
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    }
+
+    /* Отключаем неоновую линию снизу в статьях, чтобы она не перегружала текст */
+    .note-header::after {
+    display: none !important;
+    }
+
+    /* Увеличиваем размер заголовка в статье для солидности */
+    .note-header .header-site-title {
+    font-size: 26px;
+    }
+    .note-container {
+        padding-top: 20px !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Наш стандартный wrapper для выравнивания по центру экрана -->
+  <div class="wrapper" style="max-width: 1100px; padding-top: 20px;">
+
+    <!-- БОЛЬШАЯ ПЛАШКА НА ВЕСЬ ЭКРАН -->
+    <main class="note-container">
+      <!-- красивая шапка -->
+        <header class="main-header note-header">
+            <div class="header-left">
+                <img src="icons/logo.jpg" alt="IK" class="header-logo">
+                <div class="header-title-block">
+                <span class="header-nickname">IKOCTR 27</span>
+                <!-- Динамическое название: меняйте слово Voxy для других модов -->
+                <h1 class="header-site-title">Справка о моде Voxy</h1>
+                </div>
+            </div>
+        </header>
+
+      <!-- Текст (Абзац 1) -->
+      <p>
+        Мод <strong>Voxy</strong> — это уникальное графическое решение для Minecraft, которое полностью 
+        перерабатывает систему рендеринга чанков на больших расстояниях. В отличие от стандартных аналогов, 
+        он использует технологию воксельной детализации, что позволяет видеть мир на сотни блоков вперед 
+        без катастрофического падения FPS.
+      </p>
+
+      <!-- Пример вставки КАРТИНКИ -->
+      <div class="note-image-box">
+        <img src="https://picsum.photos" alt="Демонстрация работы Voxy">
+        <span class="image-caption">Сравнение дальности прорисовки с включенным модом Voxy</span>
+      </div>
+
+      <!-- Текст (Абзац 2) -->
+      <p>
+        При настройке этого мода в сборке крайне важно учитывать его совместимость с другими оптимизаторами. 
+        Например, он идеально дополняет Sodium, но может конфликтовать с некоторыми старыми версиями 
+        Distant Horizons. Рекомендуется использовать только стабильные релизы для вашей текущей версии Fabric.
+      </p>
+
+      <!-- Блок для важной авторской заметки от вас -->
+      <div class="important-note">
+        <p><strong>Заметка от IKOCTR 27:</strong> Обязательно выделите игре не менее 4 ГБ оперативной памяти в лаунчере, иначе при генерации вокселей на горизонте игра начнет на секунду фризить!</p>
+      </div>
+
+      <!-- Текст (Абзац 3) -->
+        <p>
+        В заключение хочу добавить, что этот мод незаменим для любителей красивых скриншотов и масштабных 
+        построек. Сетка чанков выглядит монолитно, отсутствуют резкие границы прогрузки мира, свойственные ванильной игре.
+        </p>
+      <!-- Пример вставки видео -->
+        <div class="video-wrapper">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/YlWhcdbX3vw?si=4LhPdIbpKNyyF8xx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <!-- пример для вставки конфига, для его скачивания -->
+        <div class="config-download-box">
+            <div class="config-info">
+                <span class="config-title">⚙️ Заголовок для конфига</span>
+                <span class="config-subtitle">под заголовок (например: Файл (название) | шо он делает)</span>
+            </div>
+            <!-- Ниже вставить ссылку на файл -->
+            <a href="configs/v.txt" download class="download-btn">Скачать</a>
+        </div>
+    </main>
+
+  </div>
+
+</body>
+</html>

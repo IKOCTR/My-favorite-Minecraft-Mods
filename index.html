@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <link rel="icon" href="icons/header_logo.jpg" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Моды IK27</title>
+  <!-- ПОДКЛЮЧАЕМ ВНЕШНИЙ CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="wrapper">
+    <header class="main-header">
+      <div class="header-left">
+        <!-- Ваша фото-иконка. Замените logo.png на реальное имя вашего файла -->
+        <img src="icons/logo.jpg" alt="IK" class="header-logo">
+        <div class="header-title-block">
+          <span class="header-nickname">IKOCTR 27</span>
+          <h1 class="header-site-title">Список самых крутых модов</h1>
+        </div>
+      </div>
+      
+      <!-- БЛОК ЖИВЫХ СЧЁТЧИКОВ (Пункт 2) -->
+      <div class="header-counters">
+        <div class="counter-item">
+          <span class="counter-label">Найдено:</span>
+          <span id="counter-filtered" class="counter-value filtered">0</span>
+        </div>
+        <div class="counter-divider">/</div>
+        <div class="counter-item">
+          <span class="counter-label">Всего:</span>
+          <span id="counter-total" class="counter-value total">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ПАНЕЛЬ ФИЛЬТРОВ И ПОИСКА -->
+    <div class="controls-panel">
+      <input type="text" id="search" class="search-input" placeholder="Поиск по названию или описанию...">
+
+      <div class="filters-group">
+        <label>
+          Загрузчик:
+          <select id="filter-loader">
+            <option value="all">Все</option>
+            <option value="fabric">Fabric</option>
+            <option value="forge">Forge</option>li
+            <option value="neoforge">NeoForge</option>
+            <option value="quilt">Quilt</option>
+          </select>
+        </label>
+        <div class="custom-dropdown">
+          <span class="dropdown-label">Версия майнкрафта:</span>
+          <!-- Кнопка, которая открывает меню и показывает текущий выбор -->
+          <div id="version-dropdown-btn" class="dropdown-btn">Все</div>
+          
+          <!-- Само выпадающее меню (изначально скрыто) -->
+          <div id="version-dropdown-menu" class="dropdown-menu">
+            <!-- Поле живого поиска версий -->
+            <input type="text" id="version-search" class="version-search-input" placeholder="Поиск версии...">
+            <!-- Сюда JS сам добавит элементы списка версий -->
+            <div id="version-options-list" class="options-list">
+              <div class="option-item active" data-value="all">Все</div>
+            </div>
+          </div>
+        </div>
+        <label>
+          Категория мода:
+          <select id="filter-custom-tag">
+            <option value="all">Все категории</option>
+            <option value="оптимизация">Оптимизация</option>
+            <option value="визуал">Визуал</option>
+            <option value="интерфейс">Интерфейс</option>
+            <option value="библиотека">Библиотека</option>
+            <option value="контент">Контент (новые блоки, механики и т.д.)</option>
+          </select>
+        </label>
+        <label>
+          Сторона мода:
+          <select id="filter-side">
+            <option value="all">Все</option>
+            <option value="client">Клиентский</option>
+            <option value="server">Серверный</option>
+            <option value="both">И там, и там</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <!-- СПИСОК ВАШИХ МОДОВ (li пишем ручками здесь) -->
+    <ul id="mods-list" class="my-grid-list">
+      
+      <!-- Sodium -->
+      <li data-slug="sodium" data-side="client" data-custom-tags="оптимизация">
+        <img src="icons/404.png" alt="Voxy" class="mod-icon">
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Sodium</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
+            <span class="api-tags"></span>
+            <!-- Плашки с категориями мода -->
+            <span class="tag custom">Оптимизация</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        <!-- Группа кнопок -->
+          <div class="mod-links-group">
+            <a href="https://modrinth.com" target="_blank" class="modrinth-btn">Modrinth</a>
+            <!-- <a href="ссылка на страничку" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a> -->
+          </div>
+        <!-- Описание мода -->
+        <div class="info-text"><p class="mod-desc">Легендарный мод на оптимизацию для клиента игры. Значительно повышает FPS меняя правила рендеринга</p></div>
+      </li>
+
+      <!-- Voxy -->
+      <li data-slug="voxy" data-side="client" data-custom-tags="визуал">
+        <img src="icons/404.png" alt="Voxy" class="mod-icon">
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Voxy</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
+            <span class="api-tags"></span>
+            <!-- Плашки с категориями мода -->
+            <span class="tag custom">Визул</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        <!-- Группа кнопок -->
+          <div class="mod-links-group">
+            <a href="https://modrinth.com" target="_blank" class="modrinth-btn">Modrinth</a>
+            <a href="voxy-note.html" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a>
+          </div>
+        <!-- Описание мода -->
+        <div class="info-text"><p class="mod-desc">Мод на ПСЕВДО, около-бесконечную, прорисовккку (Lods)</p></div>
+      </li>
+
+    </ul>
+  <script src="script.js"></script>
+</body>
+</html>

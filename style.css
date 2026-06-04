@@ -1,0 +1,600 @@
+/* ==========================================================================
+   1. БАЗОВЫЕ СТИЛИ САЙТА
+   ========================================================================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #121212;
+  color: #e0e0e0;
+  padding: 20px;
+  margin: 0;
+}
+
+.wrapper {
+  max-width: 90vw; /* Ограничиваем общую ширину для красивого отображения столбика */
+  margin: 0 auto;
+}
+.wrapper > p {
+    color: #ffffff;
+    opacity: 70%;
+    text-align: center;
+    margin-top: 0%;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 0%;
+}
+
+/* ==========================================================================
+   2. ПАНЕЛЬ ФИЛЬТРОВ И ПОИСКА
+   ========================================================================== */
+.controls-panel {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #333;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 2px solid #333;
+  border-radius: 8px;
+  background-color: #121212;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #007bff;
+}
+
+.filters-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.filters-group label {
+  font-size: 14px;
+  color: #aaa;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filters-group select {
+  padding: 8px 12px;
+  background-color: #121212;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   3. КОНТЕЙНЕР СПИСКА (FLEXBOX СТОЛБИК)
+   ========================================================================== */
+.my-grid-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Выстраивает карточки строго друг под другом */
+  gap: 15px;              /* Расстояние между карточками */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ==========================================================================
+   4. СТИЛИ ДЛЯ КАРТОЧЕК LI (ГОРИЗОНТАЛЬНАЯ СТРУКТУРА)
+   ========================================================================== */
+.my-grid-list li {
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  padding: 15px;
+  border-radius: 12px;
+  cursor: pointer;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  
+  /* ОБЯЗАТЕЛЬНО: делаем карточку якорем для абсолютного позиционирования текста внутри */
+  position: relative; 
+  align-self: start;
+  transition: background-color 0.3s ease,
+   border-color 0.3s ease,
+   border-radius 0.3s ease;
+}
+
+.my-grid-list li:hover { 
+  border-color: #444; 
+}
+
+/* Скрытие карточки при фильтрации */
+.my-grid-list li.is-hidden { 
+  display: none !important; 
+}
+
+/* Элементы внутри карточки */
+.my-grid-list li img { 
+  width: 64px; 
+  height: 64px; 
+  object-fit: cover; 
+  border-radius: 12px; 
+}
+
+.my-grid-list li h3 { 
+  margin: 0; 
+  color: #fff;
+  font-size: 16px;
+}
+
+/* Блок с тегами и версиями (размещается в центральной колонке) */
+.mod-meta-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+}
+
+.mod-tags { 
+  display: flex; 
+  gap: 5px; 
+  flex-wrap: wrap; 
+  justify-content: center;
+}
+
+.tag, 
+.tag.side, 
+.api-tags .tag { 
+  font-size: 10px !important;       /* !important намертво зафиксирует размер шрифта */
+  padding: 2px 6px !important;      /* !important намертво зафиксирует внутренние отступы */
+  border-radius: 4px;       
+  line-height: 1.2;         
+  display: inline-block;
+  font-weight: 500 !important;      /* Убираем сильную жирность, делаем текст аккуратным */
+  letter-spacing: -0.2px;   
+}
+.api-tags {
+  display: contents !important;
+}
+
+/* 2. Только цвет для ручного тега стороны */
+.tag.side { 
+  background-color: #1a7540; 
+  color: #2ecc71; 
+}
+
+/* Серый цвет для ваших личных категорий */
+.tag.custom {
+  background-color: #444444 !important;
+  color: #e0e0e0 !important;
+  text-transform: capitalize; /* Автоматически сделает первую букву заглавной */
+}
+
+.api-tags .tag { 
+  background-color: #2c3e50; 
+  color: #3498db; 
+  text-transform: capitalize; /* Делает первую букву заглавной (например, neoforge -> Neoforge) */
+}
+
+.live-versions { 
+  font-size: 11px; 
+  color: #777; 
+}
+
+.live-versions span { 
+  color: #00ff88; 
+}
+
+.my-grid-list li a { 
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+  padding: 6px 12px;
+  border: 1px solid #007bff;
+  border-radius: 6px;
+  width: 100%; /* Растягиваем кнопку */
+  font-size: 13px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.my-grid-list li a:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* ==========================================================================
+   5. ПЛАВНАЯ АНИМАЦИЯ РАСКРЫТИЯ ОПИСАНИЯ
+   ========================================================================== */
+.info-text {
+  position: absolute;
+  top: calc(100% - 10px); /* Появляется чуть-чуть в захлест под карточкой*/
+  left: -1px;             /* Выравниваем ровно по границам карточки */
+  right: -1px;
+  z-index: -1;            /* Выталкивает текст поверх нижних рядов модов */
+  
+  background-color: #252525; /* Темный фон, чтобы текст не сливался с нижними карточками */
+  border-top: none;          /* Убираем верхнюю границу, чтобы визуально объединить с li */
+  border-radius: 0 0 12px 12px; /* Скругляем только нижние уголки всплывашки */
+  padding: 0 15px;           /* Боковые отступы для текста */
+  
+  /* Стандартная плавная анимация раскрытия через Grid-rows */
+  display: grid;
+  grid-template-rows: 0fr;
+  padding: 0 15px;
+  transition: grid-template-rows 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0); /* Тень, чтобы блок «летал» над нижними модами */
+}
+
+.info-text p { 
+  overflow: hidden; 
+  margin: 0; 
+  color: #b0b0b0; 
+  font-size: 13px;
+  line-height: 1.4; 
+  opacity: 0; 
+  text-align: left;
+  transition: opacity 0.2s ease; 
+  padding-top: 15px; 
+    /* 🛠️ ВКЛЮЧАЕМ АВТОПЕРЕНОС СЛОВ ПО СЛОГАМ: */
+  hyphens: auto;              /* Браузер сам ставит дефисы по правилам языка */
+}
+
+/* ==========================================================================
+   СТИЛИ ДЛЯ ОТКРЫТОГО СОСТОЯНИЯ (КЛАСС .is-open)
+   ========================================================================== */
+.my-grid-list li.is-open { 
+  background-color: #252525; 
+  border-color: #007bff;
+  border-bottom-color: transparent !important;
+  border-radius: 12px 12px 0 0; 
+  z-index: 15; /* Делаем саму открытую карточку выше всех остальных соседей */
+}
+
+.my-grid-list li.is-open .info-text { 
+  grid-template-rows: 1fr; 
+  padding-bottom: 15px; /* Возвращаем нижний отступ, когда текст открыт */
+  border: 1px solid #007bff; 
+  border-top: none; /* Чтобы рамка не перерезала карточку изнутри */
+  /* Включаем тень, когда блок полностью выехал */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); 
+}
+
+.my-grid-list li.is-open .info-text p { 
+  opacity: 1; 
+  padding-top: 10px; 
+  transition-delay: 0.1s; 
+}
+
+/* Сообщение об отсутствии результатов */
+#no-results { 
+  text-align: center; 
+  color: #888; 
+  margin-top: 20px;
+  display: none; 
+}
+/* ==========================================================================
+   6. КАСТОМНЫЙ ВЫПАДАЮЩИЙ СПИСОК ВЕРСИЙ С ПОИСКОМ
+   ========================================================================== */
+.custom-dropdown {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 200px;
+}
+
+.dropdown-label {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.dropdown-btn {
+  padding: 8px 12px;
+  background-color: #121212;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+  position: relative;
+}
+
+/* Стрелочка на кнопке меню */
+.dropdown-btn::after {
+  content: "▼";
+  font-size: 10px;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.dropdown-menu {
+  display: none; /* Скрыто по умолчанию */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #1e1e1e;
+  border: 1px solid #444;
+  border-radius: 6px;
+  margin-top: 5px;
+  z-index: 100;
+  padding: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* Класс, который JS будет вешать для показа меню */
+.dropdown-menu.show {
+  display: block;
+}
+
+.version-search-input {
+  width: 100%;
+  padding: 6px 10px;
+  background-color: #121212;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+  margin-bottom: 8px;
+}
+
+.version-search-input:focus {
+  border-color: #007bff;
+}
+
+.options-list {
+  max-height: 200px; /* Высота прокрутки списка */
+  overflow-y: auto;   /* Включает скроллбар */
+}
+
+.option-item {
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #ccc;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.option-item:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+.option-item.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.option-item.is-hidden {
+  display: none;
+}
+/* ==========================================================================
+   7. КНОПКА ЗАМЕТКИ И ВСПЛЫВАЮЩАЯ ПОДСКАЗКА (TOOLTIP)
+   ========================================================================== */
+
+/* Контейнер для кнопок, чтобы они стояли рядом */
+.mod-links-group {
+  display: flex;
+  flex-direction: row; /* Выстраиваем кнопки строго слева направо */
+  gap: 10px;           /* Расстояние между кнопками */
+  width: 100%;         /* Растягиваем контейнер на всю ширину карточки */
+}
+
+/* Переделываем стиль главной ссылки, чтобы она делила место с вопросом */
+.mod-links-group a.modrinth-btn,
+.my-grid-list li .mod-links-group a.modrinth-btn {
+  flex-grow: 1; /* Занимает ВСЁ свободное пространство слева */
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Стиль самой круглой кнопки со знаком вопроса */
+.note-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Жестко ставим компактную ширину и высоту */
+  width: 40px !important;  
+  height: 33px !important; 
+  
+  /* И запрещаем браузеру её растягивать или сжимать */
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+
+  background-color: #1e1e1e;
+  color: #00ff88; /* Сделаем её приятно-зеленой, как символ важной информации */
+  /* 🛠️ СТАВИМ ТАКОЕ ЖЕ СКРУГЛЕНИЕ УГЛОВ И РАМКУ, КАК У КНОПКИ MODRINTH: */
+  border: 1px solid #007bff; /* Синяя рамка, как у Modrinth */
+  border-radius: 6px !important; /* Радиус скругления в точности как у соседа */
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+  position: relative;
+}
+
+.note-btn:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* --- РЕАЛИЗАЦИЯ ПОДСКАЗКИ ПРИ НАВЕДЕНИИ (Пункт 2) --- */
+.note-btn::after {
+  /* Берет текст прямо из атрибута data-tooltip в HTML */
+  content: attr(data-tooltip); 
+  
+  position: absolute;
+  bottom: 135%; /* Появляется строго НАД кнопкой */
+  right: 0;
+  width: 240px; /* Ширина всплывающего окошка с текстом */
+  padding: 8px 12px;
+  background-color: #000000;
+  color: #fff;
+  font-size: 11px;
+  font-weight: normal;
+  line-height: 1.4;
+  border-radius: 6px;
+  border: 1px solid #00ff88;
+  text-align: left;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+  
+  /* Изначально подсказка полностью скрыта */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(5px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  z-index: 100; /* Чтобы подсказка была выше всех карточек */
+}
+
+/* Показываем подсказку при наведении на кнопку мыши */
+.note-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+/* ==========================================================================
+   8. МИНИМАЛИСТИЧНАЯ НЕОНОВАЯ ШАПКА И СЧЁТЧИКИ
+   ========================================================================== */
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Логотип слева, счётчики справа */
+  padding: 15px 0 25px 0;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #333;
+  position: relative;
+}
+
+/* Тонкая светящаяся неоновая линия под всей шапкой */
+.main-header::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, #007bff, #00ff88, transparent);
+  box-shadow: 0 1px 10px #007bff;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Круглая аватарка IK */
+.header-logo {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #00ff88; /* Зеленое неоновое кольцо вокруг логотипа */
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+}
+
+.header-title-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-nickname {
+  font-size: 12px;
+  color: #00ff88;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.header-site-title {
+  margin: 0;
+  font-size: 22px;
+  color: #fff;
+  font-weight: 800;
+}
+
+/* Стили блока счётчиков */
+.header-counters {
+  display: flex;
+  align-items: center;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  padding: 8px 16px;
+  border-radius: 30px; /* Овальная аккуратная плашка */
+  gap: 10px;
+}
+
+.counter-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.counter-label {
+  font-size: 13px;
+  color: #666;
+  text-transform: uppercase;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.counter-value {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: monospace; /* Моноширинный шрифт, чтобы цифры не дёргались */
+  line-height: 1;  
+}
+
+/* Нашедшиеся моды теперь будут ярко светиться зеленым */
+.counter-value.filtered {
+  color: #00ff88;
+  text-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
+}
+
+/* Общее количество светится серым/белым */
+.counter-value.total {
+  color: #b0b0b0;
+}
+
+.counter-divider {
+  color: #444;
+  font-weight: 300;
+}
+
+/* Адаптивность для мобилок: если экран узкий, шапка встает в столбик */
+@media (max-width: 600px) {
+  .main-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  .header-left {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
