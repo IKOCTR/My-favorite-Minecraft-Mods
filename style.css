@@ -598,3 +598,86 @@ h1 {
   }
 }
 
+/* ==========================================================================
+   9. СТИЛИ ДЛЯ РЕЖИМА "ПОКАЗАТЬ НЕДОСТУПНЫЕ"
+   ========================================================================== */
+
+/* Красивое оформление контейнера галочки */
+.checkbox-label {
+  display: flex;
+  flex-direction: row !important; /* Выстраиваем чекбокс и текст в ряд */
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  color: #aaa;
+  margin-top: 18px; /* Выравниваем по высоте с селекторами */
+}
+
+.checkbox-label input {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: #00ff88; /* Зеленый цвет самой галочки */
+}
+
+/* Стили для мода, который НЕ подошел под фильтры */
+.my-grid-list li.is-unsuited {
+  opacity: 0.35;               /* Делаем карточку сильно прозрачной */
+  filter: grayscale(80%);      /* Слегка обесцвечиваем иконку и теги */
+  border-color: #222 !important; /* Гасим яркие рамки */
+  background-color: #161616;
+  order: 1;                    /* 🛠️ МАГИЯ: улетает в самый конец списка */
+  pointer-events: none;        /* Блокирует клики и открытие описания */
+}
+
+/* Обычные (подходящие) моды принудительно держим вверху списка */
+.my-grid-list li:not(.is-unsuited) {
+  order: 0;
+}
+
+/* Делаем так, чтобы кнопка ссылки у недоступного мода заблокировалась визуально */
+.my-grid-list li.is-unsuited a {
+  border-color: #333 !important;
+  color: #555 !important;
+  background: transparent !important;
+}
+
+/* ==========================================================================
+   10. ПАНЕЛЬ НАВИГАЦИИ (МЕНЮ КНОПОК)
+   ========================================================================== */
+.site-navigation {
+  display: flex;
+  flex-wrap: wrap;         /* Если кнопок станет слишком много, они мягко перенесутся на новый ряд */
+  gap: 12px;               /* Расстояние между кнопками */
+  margin-bottom: 25px;     /* Отступ снизу до панели фильтров */
+  width: 100%;
+}
+
+.nav-btn {
+  text-decoration: none;
+  background-color: #1e1e1e;
+  color: #b0b0b0;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Эффект при наведении — кнопка загорается фирменным синим неоном */
+.nav-btn:hover {
+  background-color: #252525;
+  color: #fff;
+  border-color: #007bff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+
+/* Если вы находитесь на этой странице (можно добавлять класс .active вручную в HTML) */
+.nav-btn.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}

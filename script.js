@@ -4,6 +4,10 @@ const filterSide = document.getElementById('filter-side');
 const modItems = document.querySelectorAll('#mods-list li');
 const noResultsText = document.getElementById('no-results');
 const filterCustomTag = document.getElementById('filter-custom-tag');
+const showUnsuitedCheckbox = document.getElementById('show-unsuited');
+const hideLibrariesCheckbox = document.getElementById('hide-libraries');
+
+
 
 // Переменная для хранения текущей выбранной версии в кастомном меню
 let selectedVersion = 'all';
@@ -138,46 +142,71 @@ function filterMods() {
   const selectedLoader = filterLoader.value.toLowerCase();
   const selectedSide = filterSide.value;
   const selectedCustomTag = filterCustomTag ? filterCustomTag.value.toLowerCase() : 'all';
+  
+  // Проверяем, активна ли галочка скрытия библиотек
+  const hideLibraries = hideLibrariesCheckbox ? hideLibrariesCheckbox.checked : false;
 
   let visibleCount = 0;
-  // Считаем вообще все ручные карточки li на сайте (минус абзац "ничего не найдено")
   const totalCount = modItems.length; 
 
   modItems.forEach(li => {
     const modLoaders = (li.getAttribute('data-api-loaders') || '').toLowerCase().split(',').map(l => l.trim());
     const modVersions = (li.getAttribute('data-api-versions') || '').split(',');
     const modSide = li.getAttribute('data-side');
+    
+    // Считываем кастомные теги (категории) мода
     const modCustomTags = (li.getAttribute('data-custom-tags') || '').toLowerCase().split(',').map(t => t.trim());
 
     const titleText = li.querySelector('.mod-title').textContent.toLowerCase();
     const descText = li.querySelector('.mod-desc').textContent.toLowerCase();
 
+    // ГРУППА 1: Жесткие фильтры (Поиск, Сторона, Кастомные категории)
     const matchesSearch = titleText.includes(searchQuery) || descText.includes(searchQuery);
     const matchesSide = selectedSide === 'all' || modSide === selectedSide;
-    const matchesLoader = selectedLoader === 'all' || modLoaders.includes(selectedLoader);
-    const matchesVersion = selectedVersion === 'all' || modVersions.includes(selectedVersion);
     const matchesCustomTag = selectedCustomTag === 'all' || modCustomTags.includes(selectedCustomTag);
 
-    if (matchesSearch && matchesSide && matchesLoader && matchesVersion && matchesCustomTag) {
-      li.classList.remove('is-hidden');
-      visibleCount++; // Увеличиваем счётчик отфильтрованных модов
-    } else {
+    // ГРУППА 2: Технические мягкие фильтры (Загрузчик и Версия игры)
+    const matchesLoader = selectedLoader === 'all' || modLoaders.includes(selectedLoader);
+    const matchesVersion = selectedVersion === 'all' || modVersions.includes(selectedVersion);
+
+    // Проверяем: является ли этот мод библиотекой (есть ли у него тег "библиотека")
+    const isLibrary = modCustomTags.includes('библиотека');
+
+    // Убираем старые классы состояния перед новой проверкой
+    li.classList.remove('is-hidden', 'is-unsuited');
+
+    // ЛОГИКА ОТОБРАЖЕНИЯ:
+    // 1. Если мод не подошел под жесткие фильтры (поиск, категория)
+    // ИЛИ если включена галочка "Скрыть библиотеки" и этот мод является библиотекой
+    if (!matchesSearch || !matchesSide || !matchesCustomTag || (hideLibraries && isLibrary)) {
       li.classList.add('is-hidden');
       li.classList.remove('is-open');
+    } else {
+      // 2. Если по смыслу мод должен быть на экране, проверяем его техническую совместимость
+      if (matchesLoader && matchesVersion) {
+        // Мод полностью подходит!
+        visibleCount++;
+      } else {
+        // Мод не подходит по версии/загрузчику: ВСЕГДА уносим его блеклым в самый конец списка
+        li.classList.add('is-unsuited');
+      }
     }
   });
 
-  /* ==========================================================================
-     ОБНОВЛЕНИЕ СЧЁТЧИКОВ НА ЭКРАНЕ
-     ========================================================================== */
+  // Обновляем счетчики на экране
   const filteredCounterEl = document.getElementById('counter-filtered');
   const totalCounterEl = document.getElementById('counter-total');
   
   if (filteredCounterEl) filteredCounterEl.textContent = visibleCount;
   if (totalCounterEl) totalCounterEl.textContent = totalCount;
 
-  noResultsText.style.display = visibleCount === 0 ? 'block' : 'none';
+  // Показываем надпись "Ничего не найдено", если скрылись вообще все моды на сайте
+  const hiddenCount = document.querySelectorAll('#mods-list li.is-hidden').length;
+  noResultsText.style.display = (hiddenCount === totalCount) ? 'block' : 'none';
 }
+
+
+
 
 
 // Функция, которая идет на Modrinth для каждого вашего li
@@ -249,7 +278,9 @@ window.addEventListener('DOMContentLoaded', () => {
   filterLoader.addEventListener('change', filterMods);
   filterSide.addEventListener('change', filterMods);
   filterCustomTag.addEventListener('change', filterMods);
-
+  if (hideLibrariesCheckbox) {
+    hideLibrariesCheckbox.addEventListener('change', filterMods);
+  }
   // 2. Запускаем параллельную сборку данных о модах с Modrinth
   const promises = Array.from(modItems).map(li => loadLiveModData(li));
   

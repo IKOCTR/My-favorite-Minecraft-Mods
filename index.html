@@ -35,6 +35,14 @@
       </div>
     </header>
 
+    <nav class="site-navigation">
+      <a href="about.html" class="nav-btn">ℹ️ О сайте </a>
+      <a href="news.html" class="nav-btn">✨ Новое </a>
+      
+      <!-- Сюда в будущем вы сможете просто дописывать новые кнопки вот так: -->
+      <!-- <a href="guides.html" class="nav-btn">📖 Гайды</a> -->
+    </nav>
+
     <!-- ПАНЕЛЬ ФИЛЬТРОВ И ПОИСКА -->
     <div class="controls-panel">
       <input type="text" id="search" class="search-input" placeholder="Поиск по названию или описанию...">
@@ -50,6 +58,7 @@
             <option value="quilt">Quilt</option>
           </select>
         </label>
+        
         <div class="custom-dropdown">
           <span class="dropdown-label">Версия майнкрафта:</span>
           <!-- Кнопка, которая открывает меню и показывает текущий выбор -->
@@ -65,6 +74,7 @@
             </div>
           </div>
         </div>
+        
         <label>
           Категория мода:
           <select id="filter-custom-tag">
@@ -72,11 +82,12 @@
             <option value="оптимизация">Оптимизация</option>
             <option value="визуал">Визуал</option>
             <option value="интерфейс">Интерфейс</option>
-            <option value="контент">Контент (новые блоки, механики и т.д.)</option>
+            <option value="контент">Новый контент</option>
             <option value="create">Create</option>
             <option value="библиотека">Библиотека</option>
           </select>
         </label>
+
         <label>
           Сторона мода:
           <select id="filter-side">
@@ -85,6 +96,12 @@
             <option value="server">Серверный</option>
           </select>
         </label>
+
+        <label class="checkbox-label">
+          <input type="checkbox" id="hide-libraries">
+          <span>Скрыть библиотеки</span>
+        </label>
+
       </div>
     </div>
 
@@ -511,6 +528,7 @@
       </li>
 
     </ul>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
