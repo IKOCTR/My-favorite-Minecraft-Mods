@@ -622,26 +622,57 @@ h1 {
   accent-color: #00ff88; /* Зеленый цвет самой галочки */
 }
 
-/* Стили для мода, который НЕ подошел под фильтры */
+/* ==========================================================================
+   ИСПРАВЛЕННЫЙ РЕЖИМ ОТОБРАЖЕНИЯ БЛЕКЛЫХ МОДОВ
+   ========================================================================== */
+
+/* Сама карточка блеклого мода */
 .my-grid-list li.is-unsuited {
-  opacity: 0.35;               /* Делаем карточку сильно прозрачной */
-  filter: grayscale(80%);      /* Слегка обесцвечиваем иконку и теги */
-  border-color: #222 !important; /* Гасим яркие рамки */
+  opacity: 0.35;               
+  filter: grayscale(80%);      
   background-color: #161616;
-  order: 1;                    /* 🛠️ МАГИЯ: улетает в самый конец списка */
-  pointer-events: none;        /* Блокирует клики и открытие описания */
+  order: 1;                    
+  
+  /* ИСПРАВЛЕНИЕ РАМКИ: оставляем рамку темной, но не удаляем её полностью, 
+     чтобы выпадающий текст не ломал границы карточки */
+  border-color: #222 !important;
+  transition: opacity 0.3s ease, filter 0.3s ease, background-color 0.3s ease;
 }
+
+/* Эффект наведения на саму БЛЕКЛУЮ КАРТОЧКУ (чтобы было видно, что она кликабельна) */
+.my-grid-list li.is-unsuited:hover {
+  opacity: 0.7; /* При наведении карточка становится ярче, подсказывая, что клик работает */
+  filter: grayscale(30%);
+}
+
+/* Исправление выпадающего текста у блеклого мода */
+.my-grid-list li.is-unsuited .info-text {
+  background-color: #1a1a1a;
+  border-color: #222 !important; /* Выпадашка тоже получит аккуратную темную рамку */
+}
+
+/* --- ИСПРАВЛЕНИЕ КНОПОК: убираем жесткий !important для обычного состояния --- */
+.my-grid-list li.is-unsuited a.modrinth-btn,
+.my-grid-list li.is-unsuited a.note-btn {
+  border-color: #333;
+  color: #666;
+  background: transparent;
+}
+
+/* ВОЗВРАЩАЕМ КРАСИВЫЙ ЦВЕТ ПРИ НАВЕДЕНИИ НА КНОПКИ БЛЕКЛОГО МОДА */
+.my-grid-list li.is-unsuited a.modrinth-btn:hover,
+.my-grid-list li.is-unsuited a.note-btn:hover {
+  background-color: #007bff !important;
+  color: #fff !important;
+  border-color: #007bff !important;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.4);
+}
+
+
 
 /* Обычные (подходящие) моды принудительно держим вверху списка */
 .my-grid-list li:not(.is-unsuited) {
   order: 0;
-}
-
-/* Делаем так, чтобы кнопка ссылки у недоступного мода заблокировалась визуально */
-.my-grid-list li.is-unsuited a {
-  border-color: #333 !important;
-  color: #555 !important;
-  background: transparent !important;
 }
 
 /* ==========================================================================
