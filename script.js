@@ -324,9 +324,18 @@ window.addEventListener('DOMContentLoaded', () => {
   if (hideLibrariesCheckbox) hideLibrariesCheckbox.addEventListener('change', filterMods);
 
   const promises = Array.from(modItems).map(li => loadLiveModData(li));
-  initCustomVersionDropdown().then(() => { filterMods(); });
-  Promise.all(promises).then(() => { filterMods(); });
+  // Запускаем инициализацию и фильтрацию последовательно
+  initCustomVersionDropdown().then(() => { 
+    filterMods(); 
+  });
 
+  // Когда все данные модов загрузятся, обновляем фильтр еще раз
+  Promise.all(promises).then(() => { 
+    filterMods(); 
+  }).catch(err => {
+    console.error("Ошибка загрузки данных модов:", err);
+    filterMods(); // Всё равно фильтруем, чтобы сайт не остался пустым
+  });
   modItems.forEach(li => {
     li.addEventListener('click', (e) => {
       // Если кликнули строго по кнопке-ссылке (Modrinth или знак вопроса)
