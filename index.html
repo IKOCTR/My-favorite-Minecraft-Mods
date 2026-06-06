@@ -4,7 +4,7 @@
   <link rel="icon" href="icons/header_logo.jpg" type="image/png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Моды IK27 [beta v2.3]</title>
+  <title>Моды IK27 [P-r v1]</title>
   <!-- ПОДКЛЮЧАЕМ ВНЕШНИЙ CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
@@ -17,7 +17,7 @@
         <img src="icons/logo.jpg" alt="IK" class="header-logo">
         <div class="header-title-block">
           <span class="header-nickname">IKOCTR 27</span>
-          <h1 class="header-site-title">Список самых крутых модов [beta v2.3]</h1>
+          <h1 class="header-site-title">Список самых крутых модов [Pre-release v1]</h1>
         </div>
       </div>
       
@@ -42,559 +42,254 @@
       <!-- Сюда в будущем вы сможете просто дописывать новые кнопки вот так: -->
       <!-- <a href="guides.html" class="nav-btn">📖 Гайды</a> -->
     </nav>
+    <!-- СЕКРЕТНЫЙ ГЕНЕРАТОР КАРТОЧЕК ДЛЯ IKOCTR 27 -->
+    <section class="generator-section">
+      <h2 class="generator-title">🛠️ Быстрый генератор карточек li</h2>
+      <div class="generator-form">
+        <div class="gen-row">
+          <input type="text" id="gen-title" placeholder="Название мода (например: AppleSkin)">
+          <input type="text" id="gen-slug" placeholder="Slug с Modrinth (например: appleskin)">
+        </div>
+        <div class="gen-row">
+          <!-- Кастомный мультиселект для категорий -->
+          <div class="custom-dropdown" id="gen-categories-dropdown">
+            <div class="dropdown-btn" id="gen-cats-btn">Выбрать категории...</div>
+            <div class="dropdown-menu" id="gen-cats-menu">
+              <div class="options-list" id="gen-cats-options">
+                <div class="option-item-cb" data-value="Оптимизация">Оптимизация <input type="checkbox" value="Оптимизация"></div>
+                <div class="option-item-cb" data-value="Визуал">Визуал <input type="checkbox" value="Визуал"></div>
+                <div class="option-item-cb" data-value="Интерфейс">Интерфейс <input type="checkbox" value="Интерфейс"></div>
+                <div class="option-item-cb" data-value="qol">QoL <input type="checkbox" value="qol"></div>
+                <div class="option-item-cb" data-value="Контент">Контент <input type="checkbox" value="Контент"></div>
+                <div class="option-item-cb" data-value="Аддон">Аддон <input type="checkbox" value="Аддон"></div>
+                <div class="option-item-cb" data-value="Библиотека">Библиотека <input type="checkbox" value="Библиотека"></div>
+              </div>
+            </div>
+          </div>
 
+          <input type="text" id="gen-sort-group" placeholder="Slug родителя (ОСТАВИТЬ ПУСТЫМ, если это не аддон!)">
+        </div>
+        <div class="gen-row">
+          <select id="gen-side">
+            <option value="client">Клиент (client)</option>
+            <option value="both">Клиент и Сервер (both)</option>
+            <option value="server">Сервер(server)</option>
+          </select>
+          <input type="text" id="gen-note-url" placeholder="Имя файла заметки, если есть (например: appleskin-note.html)">
+        </div>
+        <textarea id="gen-desc" rows="3" placeholder="Описание мода от себя..."></textarea>
+        
+        <button id="gen-btn">Сгенерировать HTML-код мода</button>
+      </div>
+
+      <!-- Поле, откуда вы будете копировать готовый результат -->
+      <div class="generator-result-box">
+        <p style="margin: 0 0 8px 0; font-size: 12px; color: #666;">Нажмите кнопку выше, а затем скопируйте код из поля ниже:</p>
+        <textarea id="gen-result" rows="8" readonly onclick="this.select()" placeholder="Здесь появится ваш готовый код <li>..."></textarea>
+      </div>
+    </section>
     <!-- ПАНЕЛЬ ФИЛЬТРОВ И ПОИСКА -->
     <div class="controls-panel">
       <input type="text" id="search" class="search-input" placeholder="Поиск по названию или описанию...">
 
       <div class="filters-group">
-        
-        <label class="filter-loader-label">
-          <span class="label-text-wrapper">
-            Загрузчик:
-            <!-- Иконка подсказки для загрузчиков -->
-            <span class="info-icon" data-tooltip="🧱 Справочник загрузчиков модов:">
-              !
-              <!-- Всплывающая плашка с описанием -->
-              <span class="categories-help-box">
-                <strong style="color: #007bff; display: block; margin-bottom: 8px; font-size: 13px;">🧱 Загрузчики (Лоадеры):</strong>
-                <b style="color: #fff;">• Forge:</b> Старейший и самый тяжелый лоадер. На нем созданы легендарные глобальные моды прошлых лет.<br>
-                <b style="color: #fff;">• Fabric:</b> Современный, очень легкий и быстрый лоадер. Идеален для высокой оптимизации и ванильных улучшений.<br>
-                <b style="color: #fff;">• NeoForge:</b> Новый стандарт, созданный авторами оригинального Forge. Более стабильный и быстрый, заменяет Forge на версиях 1.20+.<br>
-                <b style="color: #fff;">• Quilt:</b> Независимое ответвление от Fabric. Полностью поддерживает все Fabric-моды и имеет пару своих фишек.
-              </span>
-            </span>
-          </span>
+  
+        <!-- Фильтр 1: Загрузчик -->
+        <div class="filter-item-block">
+          <div class="label-text-wrapper">
+            <span>Загрузчик:</span>
+            <div class="info-icon">!
+              <div class="categories-help-box">
+                <b>🧱 Загрузчики (Лоадеры):</b>
 
-          <select id="filter-loader">
-            <option value="all">Все</option>
-            <option value="fabric">Fabric</option>
-            <option value="forge">Forge</option>
-            <option value="neoforge">NeoForge</option>
-            <option value="quilt">Quilt</option>
-          </select>
-        </label>
+                <p>• <b>Forge:</b> Старейший и самый тяжелый лоадер.</p>
+                <p>• <b>Fabric:</b> Современный, легкий и быстрый лоадер.</p>
+                <p>• <b>NeoForge:</b> Новый стандарт, заменяет Forge на 1.20+.</p>
+                <p>• <b>Quilt:</b> Ответвление от Fabric с его полной поддержкой.</p>
+                <p>• <b>Остальное:</b> Плгины для сервера</p>
+              </div>
+            </div>
+          </div>
+          <label>
+            <select id="filter-loader">
+              <option value="all">Все</option>
+              <option value="fabric">Fabric</option>
+              <option value="forge">Forge</option>
+              <option value="neoforge">NeoForge</option>
+              <option value="quilt">Quilt</option>
+            </select>
+          </label>
+        </div>
 
-        
-        <div class="custom-dropdown">
-          <span class="dropdown-label">Версия майнкрафта:</span>
-          <!-- Кнопка, которая открывает меню и показывает текущий выбор -->
-          <div id="version-dropdown-btn" class="dropdown-btn">Все</div>
-          
-          <!-- Само выпадающее меню (изначально скрыто) -->
-          <div id="version-dropdown-menu" class="dropdown-menu">
-            <!-- Поле живого поиска версий -->
-            <input type="text" id="version-search" class="version-search-input" placeholder="Поиск версии...">
-            <!-- Сюда JS сам добавит элементы списка версий -->
-            <div id="version-options-list" class="options-list">
-              <div class="option-item active" data-value="all">Все</div>
+        <!-- Фильтр 2: Версия майнкрафта -->
+        <div class="filter-item-block">
+          <div class="label-text-wrapper">
+            <span class="dropdown-label">Версия майнкрафта:</span>
+          </div>
+          <div class="custom-dropdown" id="version-dropdown">
+            <div class="dropdown-btn" id="version-dropdown-btn">Все</div>
+            <div class="dropdown-menu" id="version-dropdown-menu">
+              <input type="text" id="version-search" class="version-search-input" placeholder="Поиск версии...">
+              <div class="options-list" id="version-options-list">
+                <div class="option-item active" data-value="all">Все</div>
+              </div>
             </div>
           </div>
         </div>
-        
-        <label class="filter-custom-tag-label">
-          <span class="label-text-wrapper">
-            Категория мода:
-            <!-- Иконка подсказки -->
-            <span class="info-icon" data-tooltip="💡 Краткий справочник категорий:">
-              !
-              <!-- Большая плашка с описанием всех категорий -->
-              <span class="categories-help-box">
-                <strong style="color: #007bff; display: block; margin-bottom: 8px; font-size: 13px;">💡 Категории модов:</strong>
-                <b style="color: #fff;">• Оптимизация:</b> Повышают FPS и убирают фризы.<br>
-                <b style="color: #fff;">• Визуал:</b> Красивое небо, туман, анимации и Lod-ы.<br>
-                <b style="color: #fff;">• Интерфейс:</b> Улучшение чата, F3, худов и меню.<br>
-                <b style="color: #fff;">• Контент:</b> Новые предметы, мобы, биомы, блоки, механизмы (Create).<br>
-                <b style="color: #fff;">• Аддон:</b> Дополнения, требующие основной мод.<br>
-                <b style="color: #fff;">• Библиотека:</b> Технические ядра для работы других модов.
-              </span>
-            </span>
-          </span>
-          <select id="filter-custom-tag">
-            <option value="all">Все категории</option>
-            <option value="оптимизация">Оптимизация</option>
-            <option value="визуал">Визуал</option>
-            <option value="интерфейс">Интерфейс</option>
-            <option value="контент">Контент</option>
-            <option value="аддон">Аддон</option>
-            <option value="библиотека">Библиотека</option>
-          </select>
-        </label>
 
-        <label class="filter-side-label">
-          <span class="label-text-wrapper">
-            Сторона мода:
-            <!-- Иконка подсказки для сторон мода -->
-            <span class="info-icon" data-tooltip="⚙️ Справочник физических сторон:">
-              !
-              <!-- Всплывающая плашка с описанием сторон -->
-              <span class="categories-help-box to-left">
-                <strong style="color: #007bff; display: block; margin-bottom: 8px; font-size: 13px;">⚙️ Стороны модов:</strong>
-                <b style="color: #fff;">• Клиентский:</b> Работает только у вас. Можно использовать на любых серверах (оптимизация, интерфейс).<br>
-                <b style="color: #fff;">• Серверный:</b> Ставится только на хостинг. Игрокам качать не нужно (приваты, админки).<br>
-                <b style="color: #fff;">• Клиент и Сервер:</b> Должен быть установлен и у вас, и на сервере. Без него игра не пустит в мир (новые блоки, мобы, магия).
-              </span>
-            </span>
-          </span>
+        <!-- Фильтр 3: Категория мода -->
+        <div class="filter-item-block">
+          <div class="label-text-wrapper">
+            <span>Категория мода:</span>
+            <div class="info-icon">!
+              <div class="categories-help-box">
+                <b>💡 Категории модов:</b>
+  
+                <p>• <b>Оптимизация:</b> Оптимизируют игру, повышая ФПС.</p>
+                <p>• <b>Визуал:</b> Визуально изменение игры, делающие её более красивой.</p>
+                <p>• <b>Интерфейс:</b> Улучшение внутриигровых интерфейсов.</p>
+                <p>• <b>QoL:</b> (Quality of Life) Добавляют функции для комфортной игры.</p>
+                <p>• <b>Контент:</b> Новые блоки, мобы, механики. Обычно сторона мода (Клиент + Сервер)</p>
+                <p>• <b>Аддон:</b> Моды, расширяющие функционал <b>ДРУГИХ</b> модов</p>
+                <p>• <b>Библиотека:</b> Необходимы для работы некоторых других модов.</p>
+              </div>
+            </div>
+          </div>
+          <label>
+            <select id="filter-custom-tag">
+              <option value="all">Все категории</option>
+              <option value="оптимизация">Оптимизация</option>
+              <option value="визуал">Визуал</option>
+              <option value="интерфейс">Интерфейс</option>
+              <option value="qol">QoL</option>
+              <option value="контент">Контент</option>
+              <option value="аддон">Аддон</option>
+              <option value="библиотека">Библиотека</option>
+            </select>
+          </label>
+        </div>
 
-          <select id="filter-side">
-            <option value="all">Все стороны</option>
-            <option value="client">Клиентский</option>
-            <option value="server">Серверный</option>
-            <!-- Если у вас в коде генератора карточек используется text "Клиент + Сервер", 
-                убедитесь, что value совпадает с тем, что прописано в тегах li ваших модов -->
-            <option value="both">Клиент и Сервер</option> 
-          </select>
-        </label>
+        <!-- Фильтр 4: Сторона мода -->
+        <div class="filter-item-block">
+          <div class="label-text-wrapper">
+            <span>Сторона мода:</span>
+            <div class="info-icon">!
+              <div class="categories-help-box">
+                <b>⚙ Стороны модов:</b>
 
+                <p>• <b>Клиентский:</b> Работает только у вас (оптимизация, интерфейс).</p>
+                <p>• <b>Серверный:</b> Ставится только на хостинг (приваты, админки).</p>
+                <p>• <b>Клиент и Сервер:</b> Ставится везде (новые блоки, мобы, магия).</p>
+              </div>
+            </div>
+          </div>
+          <label>
+            <select id="filter-side">
+              <option value="all">Все стороны</option>
+              <option value="client">Клиентский</option>
+              <option value="server">Серверный</option>
+              <option value="both">Клиент и Сервер</option>
+            </select>
+          </label>
+        </div>
+
+        <!-- Галочка: Скрыть библиотеки -->
         <label class="checkbox-label">
-          <input type="checkbox" id="hide-libraries">
-          <span>Скрыть библиотеки</span>
+          <input type="checkbox" id="hide-libraries"> Скрыть библиотеки
         </label>
 
       </div>
+
     </div>
 
     <!-- СПИСОК ВАШИХ МОДОВ (li пишем ручками здесь) -->
     <ul id="mods-list" class="my-grid-list">
-      
-      <!-- Chat Animation [Smooth Chat] -->
-      <li data-slug="chatanimation" data-side="client" data-custom-tags="интерфейс">
-        <img src="icons/404.png" alt="Chat Animation [Smooth Chat]" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Chat Animation [Smooth Chat]</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Интерфейс</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/chatanimation" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="ссылка на страничку" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Сообщения в чате появляються с плавной анимацией</p></div>
-      </li>
 
-      <!-- Chat Heads -->
-      <li data-slug="chat-heads" data-side="client" data-custom-tags="интерфейс">
-        <img src="icons/404.png" alt="Chat Heads" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Chat Heads</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Интерфейс</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
+    <!-- Advanced Peripherals -->
+      <li data-slug="AdvancedPeripherals" data-side="both" data-custom-tags="Контент, Аддон" data-sort-group="cc-tweaked">
+        <div class="mod-icon-container">
+          <img src="icons/404.png" alt="Иконка" class="mod-icon">
+          <img src="" alt="" class="parent-icon">
         </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/chat-heads" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="ссылка на страничку" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Добавляет в чате, перед никами, лицо со скина</p></div>
-      </li>
-
-      <!-- BetterF3 -->
-      <li data-slug="betterf3" data-side="client" data-custom-tags="интерфейс">
-        <img src="icons/404.png" alt="BetterF3" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">BetterF3</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Интерфейс</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/betterf3" target="_blank" class="modrinth-btn">Modrinth</a>
-            <a href="betterf3-note.html" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a>
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Добавляет возможность настраивать F3. Можно убрать лишнюю информацию. Также делает блоки информации цветными, что улучшает читаемость</p></div>
-      </li>
-
-      <!-- Better Statistics Screen -->
-      <li data-slug="better-stats" data-side="client" data-custom-tags="интерфейс">
-        <img src="icons/404.png" alt="Better Statistics Screen" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Better Statistics Screen</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Интерфейс</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/better-stats" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="ссылка на страничку" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Улучшает ванильный экран статистики, делая его удобным и красивым</p></div>
-      </li>
-
-      <!-- CC: Tweaked -->
-      <li data-slug="cc-tweaked" data-side="server" data-custom-tags="контент">
-        <img src="icons/404.png" alt="CC: Tweaked" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">CC: Tweaked</h3>
-          <div class="mod-tags">
-            <span class="tag side">Сервер</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Контент</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/cc-tweaked" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="ссылка на страничку" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Добавляет в игру програмируемые на языке <b>Lua</b> - компьютеры. Благодаря им и "черепашкам", можно реализовывать все что пожелает: автокрафт, сортировка ресов, синхронизация инвенторя сундука с сайтом или тг ботом, ЧТО НАХУЙ УГОДНО!!!</p></div>
-      </li>
-
-      <!-- Advanced Peripherals -->
-      <li data-slug="advancedperipherals" data-side="server" data-custom-tags="контент">
-        <img src="icons/404.png" alt="Advanced Peripherals" class="mod-icon">
+        
         <div class="mod-meta-wrapper">
           <h3 class="mod-title">Advanced Peripherals</h3>
           <div class="mod-tags">
-            <span class="tag side">Сервер</span> <!--Плашка (клиент/сервер)-->
+            <span class="tag side">Клиент + Сервер</span>
             <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Контент</span>
+          <span class="tag custom">Контент</span>
+          <span class="tag custom">Аддон</span>
           </div>
           <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/advancedperipherals" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="ссылка на страничку" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Добавляет новый функционал для <b>CC: Tweaked</b> (ссылка на документацию на Modrinth)</p></div>
-      </li>
-
-      <!-- Sodium -->
-      <li data-slug="sodium" data-side="client" data-custom-tags="оптимизация" data-sort-group="sodium">
-        <img src="icons/404.png" alt="Sodium" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Sodium</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Оптимизация</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/sodium" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="ссылка на страничку" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Легендарный мод на оптимизацию для клиента игры. Значительно повышает FPS меняя правила рендеринга</p></div>
-      </li>
-
-      <!-- Sodium Extra -->
-      <li data-slug="sodium-extra" data-side="client" data-custom-tags="оптимизация" data-sort-group="sodium">
-        
-        <!-- стильная вторая иконка родителя -->
-        <div class="mod-icon-container">
-          <img src="icons/404.png" alt="Иконка" class="mod-icon">
-          <img src="" alt="" class="parent-icon">
         </div>
         
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Sodium Extra</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Оптимизация</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/AdvancedPeripherals" target="_blank" class="modrinth-btn">Modrinth</a>
         </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/sodium-extra" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="ссылка на страничку" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Добавляет новые функции для мода <b>Sodium</b></p></div>
-      </li>
-
-      <!-- Reese's Sodium Options -->
-      <li data-slug="reeses-sodium-options" data-side="client" data-custom-tags="оптимизация, интерфейс" data-sort-group="sodium">
-        <!-- стильная вторая иконка родителя -->
-        <div class="mod-icon-container">
-          <img src="icons/404.png" alt="Иконка" class="mod-icon">
-          <img src="" alt="" class="parent-icon">
+        
+        <div class="info-text">
+          <p class="mod-desc">Advanced Peripherals - это мод, который добавляет много полезных расширений для CC:Tweaked(Computercraft).</p>
         </div>
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Reese's Sodium Options</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Интерфейс</span>
-            <span class="tag custom">Оптимизация</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/reeses-sodium-options" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="ссылка на страничку" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Улучшает визуал интерфейса мода <b>Sodium</b></p></div>
-      </li>
-
-      <!-- Voxy -->
-      <li data-slug="voxy" data-side="client" data-custom-tags="визуал">
-        <img src="icons/404.png" alt="Voxy" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Voxy</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Визул</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/voxy" target="_blank" class="modrinth-btn">Modrinth</a>
-            <a href="voxy-note.html" class="note-btn" data-tooltip="Нажмите для более подробной справки от IKOCTR 27">?</a>
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Мод на ПСЕВДО, около-бесконечную, прорисовку (Lods)</p></div>
-      </li>
-
-      <!-- AppleSkin -->
-      <li data-slug="appleskin" data-side="client" data-custom-tags="интерфейс">
-        <img src="icons/404.png" alt="AppleSkin" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">AppleSkin</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Интерфейс</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/appleskin" target="_blank" class="modrinth-btn">Modrinth</a>
-            <a href="appleskin-note.html" class="note-btn" data-tooltip="Нажмите для более подробной справки от IKOCTR 27">?</a>
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Этот мод показывает, как сильно еда востанавливает шкалу: голода,насыщености и ХП</p></div>
-      </li>
-
-      <!-- Armor Trim Item Fix -->
-      <li data-slug="armor-trim-item-fix" data-side="client" data-custom-tags="интерфейс">
-        <img src="icons/404.png" alt="Armor Trim Item Fix" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Armor Trim Item Fix</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Интерфейс</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/armor-trim-item-fix" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="mod-note.html" class="note-btn" data-tooltip="Нажмите для более подробной справки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Этот мод корректно отображает в инвентаре шаблоны для брони</p></div>
-      </li>
-
-      <!-- ATMOSPHERICS -->
-      <li data-slug="atmospherics" data-side="client" data-custom-tags="визуал">
-        <img src="icons/404.png" alt="ATMOSPHERICS" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">ATMOSPHERICS</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Интерфейс</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/atmospherics" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="mod-note.html" class="note-btn" data-tooltip="Нажмите для более подробной справки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Красиво меняет визуал: Тумана, неба, дымки(new), звезд, облаков. Все лекго настраиваеться</p></div>
-      </li>
-
-      <!-- BadOptimizations -->
-      <li data-slug="badoptimizations" data-side="client" data-custom-tags="оптимизация">
-        <img src="icons/404.png" alt="badoptimizations" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">BadOptimizations</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Оптимизация</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/badoptimizations" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="mod-note.html" class="note-btn" data-tooltip="Нажмите для более подробной справки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Маленький мод на оптимизацию, добавляющий 2-8 % FPS</p></div>
-      </li>
-
-      <!-- Better Snow Coverage -->
-      <li data-slug="better-snow-coverage" data-side="client" data-custom-tags="визуал">
-        <img src="icons/404.png" alt="Better Snow Coverage" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Better Snow Coverage</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Визуал</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/better-snow-coverage" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="mod-note.html" class="note-btn" data-tooltip="Нажмите для более подробной справки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Этот мод визуально отображает траву, цветы в снегу, если рядом лежит слой снега</p></div>
-      </li>
-
-      <!-- Architectury -->
-      <li data-slug="architectury-api" data-side="client" data-custom-tags="библиотека">
-        <img src="icons/404.png" alt="Architectury" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Architectury</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Библиотека</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/architectury-api" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="mod-note.html" class="note-btn" data-tooltip="Нажмите для более подробной справки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Этот мод библеотека, необходимый для работы некоторых других модов</p></div>
-      </li>
-
-      <!-- BaguetteLib -->
-      <li data-slug="baguettelib" data-side="client" data-custom-tags="библиотека">
-        <img src="icons/404.png" alt="BaguetteLib" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">BaguetteLib</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Библиотека</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/baguettelib" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="mod-note.html" class="note-btn" data-tooltip="Нажмите для более подробной справки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Этот мод библеотека, необходимый для работы некоторых других модов</p></div>
-      </li>
-
-      <!-- Balm -->
-      <li data-slug="balm" data-side="client" data-custom-tags="библиотека">
-        <img src="icons/404.png" alt="Balm" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Balm</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Библиотека</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/balm" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="mod-note.html" class="note-btn" data-tooltip="Нажмите для более подробной справки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Этот мод библеотека, необходимый для работы некоторых других модов</p></div>
-      </li>
-
-      <!-- Sodium Options API -->
-      <li data-slug="sodium-options-api" data-side="client" data-custom-tags="библиотека">
-        <img src="icons/404.png" alt="Sodium Options API" class="mod-icon">
-        <div class="mod-meta-wrapper">
-          <h3 class="mod-title">Sodium Options API</h3>
-          <div class="mod-tags">
-            <span class="tag side">Клиент</span> <!--Плашка (клиент/сервер)-->
-            <span class="api-tags"></span>
-            <!-- Плашки с категориями мода -->
-            <span class="tag custom">Библиотека</span>
-          </div>
-          <div class="live-versions">Версии: <span>загрузка...</span></div>
-        </div>
-        <!-- Группа кнопок -->
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/sodium-options-api" target="_blank" class="modrinth-btn">Modrinth</a>
-            <!-- <a href="mod-note.html" class="note-btn" data-tooltip="Нажмите для более подробной справки от IKOCTR 27">?</a> -->
-          </div>
-        <!-- Описание мода -->
-        <div class="info-text"><p class="mod-desc">Этот мод библеотека, необходимый для работы некоторых других модов</p></div>
       </li>
       
+      <!-- CC: Tweaked -->
+      <li data-slug="cc-tweaked" data-side="both" data-custom-tags="Контент" data-sort-group="cc-tweaked">
+        <img src="icons/404.png" alt="CC: Tweaked" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">CC: Tweaked</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент + Сервер</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Контент</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/cc-tweaked" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Вилка ComputerCraft добавляет программируемые компьютеры, черепах и многое другое в Minecraft.</p>
+        </div>
+      </li>
+
+      <!-- Create Aeronautics -->
+      <li data-slug="create-aeronautics" data-side="both" data-custom-tags="Контент, Аддон" data-sort-group="create">
+        <div class="mod-icon-container">
+          <img src="icons/404.png" alt="Иконка" class="mod-icon">
+          <img src="" alt="" class="parent-icon">
+        </div>
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Create Aeronautics</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент + Сервер</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Контент</span>
+          <span class="tag custom">Аддон</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/create-aeronautics" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Стройте что угодно - от дирижаблей до самолетов и автомобилей! Реалистичная физика!</p>
+        </div>
+      </li>
+
       <!-- Create -->
-      <li data-slug="create" data-side="client" data-custom-tags="Контент" data-sort-group="create">
+      <li data-slug="create" data-side="both" data-custom-tags="Контент" data-sort-group="create">
         <img src="icons/404.png" alt="Create" class="mod-icon">
         
         <div class="mod-meta-wrapper">
           <h3 class="mod-title">Create</h3>
           <div class="mod-tags">
-            <span class="tag side">Клиент</span>
+            <span class="tag side">Клиент + Сервер</span>
             <span class="api-tags"></span>
           <span class="tag custom">Контент</span>
           </div>
@@ -606,71 +301,333 @@
         </div>
         
         <div class="info-text">
-          <p class="mod-desc">Мод добавляющий шестерни, конвееры, буры. Красивый и простой технический мод. Облегчает игру, а также делает её интересней!</p>
+          <p class="mod-desc">Добавляет в игру: Шестерни, валы, конвееры, буры, вентиляторы. Самый популяррный и простой технический мод, делающий игру интересней!</p>
         </div>
       </li>
 
-      <!-- Create Crafts & Additions -->
-        <li data-slug="createaddition" data-side="server" data-custom-tags="Контент, Аддон" data-sort-group="create">
-          <div class="mod-icon-container">
-            <img src="icons/404.png" alt="Иконка" class="mod-icon">
-            <img src="" alt="" class="parent-icon">
+      <!-- AppleSkin -->
+      <li data-slug="appleskin" data-side="client" data-custom-tags="Интерфейс" data-sort-group="appleskin">
+        <img src="icons/404.png" alt="AppleSkin" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">AppleSkin</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Интерфейс</span>
           </div>
-          
-          <div class="mod-meta-wrapper">
-            <h3 class="mod-title">Create Crafts & Additions</h3>
-            <div class="mod-tags">
-              <span class="tag side">Сервер</span>
-              <span class="api-tags"></span>
-            <span class="tag custom">Контент</span>
-            <span class="tag custom">Аддон</span>
-            </div>
-            <div class="live-versions">Версии: <span>загрузка...</span></div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/appleskin" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Улучшения HUD, связанные с едой/голодом!</p>
+        </div>
+      </li>
+
+      <!-- Architectury API -->
+      <li data-slug="Architectury-api" data-side="client" data-custom-tags="библиотека" data-sort-group="Architectury-api">
+        <img src="icons/404.png" alt="Architectury API" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Architectury API</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+            <span class="tag custom">Библиотека</span>
           </div>
-          
-          <div class="mod-links-group">
-            <a href="https://modrinth.com/mod/createaddition" target="_blank" class="modrinth-btn">Modrinth</a>
-          <a href="soon.html" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/Architectury-api" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Мод библиотека. Необходим для работы некоторых других модов.</p>
+        </div>
+      </li>
+
+      <!-- Armor Trim Item Fix -->
+      <li data-slug="Armor-Trim-Item-Fix" data-side="client" data-custom-tags="Интерфейс" data-sort-group="Armor-Trim-Item-Fix">
+        <img src="icons/404.png" alt="Armor Trim Item Fix" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Armor Trim Item Fix</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Интерфейс</span>
           </div>
-          
-          <div class="info-text">
-            <p class="mod-desc">Компания Create Crafts & Additions расширяет возможности Create и выступает в качестве связующего звена между электрической и кинетической энергией.</p>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/Armor-Trim-Item-Fix" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Фиксить отображение брони с шаблонами в инвентаре</p>
+        </div>
+      </li>
+
+      <!-- ATMOSPHERICS -->
+      <li data-slug="atmospherics" data-side="client" data-custom-tags="Визуал" data-sort-group="atmospherics">
+        <img src="icons/404.png" alt="ATMOSPHERICS" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">ATMOSPHERICS</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Визуал</span>
           </div>
-        </li>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/atmospherics" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Изменение тумана, неба, облаков и звезд на биом в режиме реального времени</p>
+        </div>
+      </li>
+
+      <!-- BadOptimizations -->
+      <li data-slug="BadOptimizations" data-side="client" data-custom-tags="Оптимизация" data-sort-group="BadOptimizations">
+        <img src="icons/404.png" alt="BadOptimizations" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">BadOptimizations</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Оптимизация</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/BadOptimizations" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Мод оптимизации, который фокусируется на вещах, отличных от рендеринга</p>
+        </div>
+      </li>
+
+      <!-- BaguetteLib -->
+      <li data-slug="BaguetteLib" data-side="client" data-custom-tags="Библиотека" data-sort-group="BaguetteLib">
+        <img src="icons/404.png" alt="BaguetteLib" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">BaguetteLib</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Библиотека</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/BaguetteLib" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Мод библиотека. Необходим для работы некоторых других модов.</p>
+        </div>
+      </li>
+
+      <!-- Balm -->
+      <li data-slug="balm" data-side="client" data-custom-tags="Библиотека" data-sort-group="balm">
+        <img src="icons/404.png" alt="Balm" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Balm</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Библиотека</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/balm" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Мод библиотека. Необходим для работы некоторых других модов.</p>
+        </div>
+      </li>
+
+      <!-- Better Snow Coverage -->
+      <li data-slug="Better-Snow-Coverage" data-side="client" data-custom-tags="Визуал" data-sort-group="Better-Snow-Coverage">
+        <img src="icons/404.png" alt="Better Snow Coverage" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Better Snow Coverage</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Визуал</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/Better-Snow-Coverage" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Отображает недостающий снег под различными блоками (трава, цветы и т.д.)</p>
+        </div>
+      </li>
+
+      <!-- Better Statistics Screen -->
+      <li data-slug="better-stats" data-side="client" data-custom-tags="Интерфейс" data-sort-group="better-stats">
+        <img src="icons/404.png" alt="Better Statistics Screen" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Better Statistics Screen</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Интерфейс</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/better-stats" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Мод Minecraft, который улучшает экран статистики и делает его более полезным.</p>
+        </div>
+      </li>
+
+      <!-- BetterF3 -->
+      <li data-slug="BetterF3" data-side="client" data-custom-tags="Интерфейс" data-sort-group="BetterF3">
+        <img src="icons/404.png" alt="BetterF3" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">BetterF3</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Интерфейс</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/BetterF3" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">BetterF3 - это мод, который заменяет оригинальный отладочный HUD Minecraft (F3) на настраиваемый, более человекочитаемый HUD.</p>
+        </div>
+      </li>
+
+      <!-- Chat Heads -->
+      <li data-slug="Chat-Heads" data-side="client" data-custom-tags="Интерфейс" data-sort-group="Chat-Heads">
+        <img src="icons/404.png" alt="Chat Heads" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Chat Heads</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Интерфейс</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/Chat-Heads" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Показывает иконки игроков рядом с их никами в чате</p>
+        </div>
+      </li>
+
+      <!-- Chat Animation [Smooth Chat] -->
+      <li data-slug="ChatAnimation" data-side="client" data-custom-tags="Интерфейс" data-sort-group="ChatAnimation">
+        <img src="icons/404.png" alt="Chat Animation [Smooth Chat]" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Chat Animation [Smooth Chat]</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Интерфейс</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/ChatAnimation" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Заставляет сообщения чата появляться с плавной анимацией.</p>
+        </div>
+      </li>
+
+      <!-- Chunky -->
+      <li data-slug="Chunky" data-side="server" data-custom-tags="Оптимизация" data-sort-group="Chunky">
+        <img src="icons/404.png" alt="Chunky" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Chunky</h3>
+          <div class="mod-tags">
+            <span class="tag side">Сервер</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Оптимизация</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/Chunky" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Можно пару командами заставить мир сгенерировать чанки в определенной области</p>
+        </div>
+      </li>
+
+      <!-- ClickThrough Plus -->
+      <li data-slug="ClickThrough+" data-side="client" data-custom-tags="qol" data-sort-group="ClickThrough+">
+        <img src="icons/404.png" alt="ClickThrough Plus" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">ClickThrough Plus</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">qol</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/ClickThrough+" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Откройте сундук через рамки и таблички, не взаимодействуя с ними! ( Нажмите shift чтобы снова с ними взаимодействовать )</p>
+        </div>
+      </li>
 
     </ul>
-
-     <!-- СЕКРЕТНЫЙ ГЕНЕРАТОР КАРТОЧЕК ДЛЯ IKOCTR 27 -->
-  <section class="generator-section">
-    <h2 class="generator-title">🛠️ Быстрый генератор карточек li</h2>
-    <div class="generator-form">
-      <div class="gen-row">
-        <input type="text" id="gen-title" placeholder="Название мода (например: AppleSkin)">
-        <input type="text" id="gen-slug" placeholder="Slug с Modrinth (например: appleskin)">
-      </div>
-      <div class="gen-row">
-        <input type="text" id="gen-custom-tags" placeholder="Кастомные категории через запятую (например: визуал, интерфейс)">
-        <input type="text" id="gen-sort-group" placeholder="Slug родителя (ОСТАВИТЬ ПУСТЫМ, если это не аддон!)">
-      </div>
-      <div class="gen-row">
-        <select id="gen-side">
-          <option value="client">Клиент (client)</option>
-          <option value="both">Клиент и Сервер (both)</option>
-          <option value="server">Сервер(server)</option>
-        </select>
-        <input type="text" id="gen-note-url" placeholder="Имя файла заметки, если есть (например: appleskin-note.html)">
-      </div>
-      <textarea id="gen-desc" rows="3" placeholder="Описание мода от себя..."></textarea>
-      
-      <button id="gen-btn">Сгенерировать HTML-код мода</button>
-    </div>
-
-    <!-- Поле, откуда вы будете копировать готовый результат -->
-    <div class="generator-result-box">
-      <p style="margin: 0 0 8px 0; font-size: 12px; color: #666;">Нажмите кнопку выше, а затем скопируйте код из поля ниже:</p>
-      <textarea id="gen-result" rows="8" readonly onclick="this.select()" placeholder="Здесь появится ваш готовый код <li>..."></textarea>
-    </div>
-  </section>
   </div>
   <script src="script.js"></script>
 </body>

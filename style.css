@@ -895,16 +895,15 @@ h1 {
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
 }
 
-/* Большая всплывающая плашка (скрыта по умолчанию) */
+/* Большая всплывающая плашка (базовое состояние) */
 .categories-help-box {
   position: absolute;
-  bottom: 140%; /* Появляется строго над иконкой */
   left: 0;
-  width: 280px; /* Достаточная ширина для удобного чтения списком */
+  width: 280px; 
   background-color: #161616;
   padding: 12px 15px;
   border-radius: 8px;
-  border: 1px solid #007bff; /* Синий контур */
+  border: 1px solid #007bff; 
   font-size: 12px;
   font-weight: normal;
   line-height: 1.5;
@@ -912,23 +911,224 @@ h1 {
   text-align: left;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
   
-  /* Анимация плавного появления */
+  max-height: 250px;
+  overflow-y: auto;
+  
+  /* Изначально подсказка полностью скрыта */
   opacity: 0;
   visibility: hidden;
-  transform: translateY(5px);
+  z-index: 200; 
+  /* ИСПРАВЛЕНИЕ: разрешаем клики и прокрутку внутри плашки */
+  pointer-events: auto !important; 
   transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
-  z-index: 200; /* Выше всех карточек модов */
-  pointer-events: none; /* Чтобы плашка не мешала мышке */
+}
+
+/* Направление НАД иконкой */
+.categories-help-box:not(.open-down) {
+  bottom: 140%; 
+  transform: translateY(5px);
+}
+
+/* Направление ПОД иконкой */
+.categories-help-box.open-down {
+  top: 140%; 
+  transform: translateY(-5px);
+}
+
+/* 🔥 НОВОЕ: Включение плашки через явный класс в JS */
+.categories-help-box.show {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
 }
 
 .categories-help-box.to-left {
-  left: auto;   /* Отменяем выравнивание по левому краю */
-  right: 0;     /* Прижимаем правый край плашки к правому краю синей иконки */
+  left: auto;   
+  right: 0;     
 }
 
-/* Показываем плашку при наведении на синий кружок */
-.info-icon:hover .categories-help-box {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+/* Выравнивание подписей и кнопок [!] в панели управления */
+.filters-group .label-text-wrapper {
+  display: flex !important;
+  flex-direction: row !important; /* Строго горизонтальный ряд для текста и иконки */
+  align-items: center !important;  /* Центровка по высоте */
+  gap: 8px !important;            /* Небольшой зазор между текстом и кружком [!] */
+  width: 100%;
+}
+
+/* Фикс самой круглой синей кнопки, чтобы текст [!] сидел ровно по центру */
+.info-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 18px !important;
+  height: 18px !important;
+  background-color: #121212 !important;
+  color: #007bff !important;
+  border: 1px solid #007bff !important;
+  border-radius: 50% !important;
+  font-size: 10px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  position: relative !important;
+  user-select: none !important;
+  line-height: 1 !important;
+  text-indent: 0 !important;
+}
+
+/* Убираем лишние внешние отступы у селекторов внутри группы */
+.filters-group select, .filters-group .custom-dropdown {
+  margin-top: 2px !important;
+}
+
+
+/* ==============================================================
+   🔒 СЕКЦИЯ ГЕНЕРАТОРА: ИСПРАВЛЕННЫЙ МУЛЬТИСЕЛЕКТ КАТЕГОРИЙ (ФИНАЛ)
+   ============================================================== */
+
+/* Фиксируем ширину самого блока выбора, чтобы он не раздувал форму */
+#gen-categories-dropdown {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 200px !important; 
+  min-width: 200px !important;
+  flex-grow: 0 !important;   
+}
+
+/* Выпадающее окно делаем фиксированной ширины */
+#gen-categories-dropdown .dropdown-menu {
+  width: 220px !important; 
+  background-color: #1e1e1e !important;
+  border: 1px solid #444 !important;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5) !important;
+}
+
+#gen-cats-options {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Каждая строчка внутри списка */
+.option-item-cb {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  display: block !important;               /* Отключаем flex на строке, чтобы убрать конфликты */
+  position: relative !important;            /* Якорь для абсолютного позиционирования чекбокса */
+  padding: 8px 35px 8px 12px !important;    /* Запас справа (35px), чтобы текст не налезал на чекбокс */
+  font-size: 13px !important;
+  color: #ccc !important;
+  cursor: pointer !important;
+  border-radius: 4px !important;
+  text-align: left !important;              /* Текст всегда аккуратно прижат к левому краю */
+  transition: background-color 0.2s ease !important;
+  user-select: none !important;
+  line-height: 15px !important;
+}
+
+.option-item-cb:hover {
+  background-color: #333 !important;
+  color: #fff !important;
+}
+
+/* Мертвая фиксация чекбоксов в идеальную вертикальную струну */
+.option-item-cb input[type="checkbox"] {
+  position: absolute !important;
+  top: 50% !important;                      /* Центрирование по вертикали */
+  transform: translateY(-50%) !important;   /* Идеальный сдвиг в центр */
+  right: 12px !important;                   /* Жесткий отступ от правого края плашки */
+  
+  width: 15px !important;
+  height: 15px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  accent-color: #00ff88 !important;         /* Наш неоновый зеленый */
+  cursor: pointer !important;
+}
+/* Кастомизация скроллбара внутри выпадающей подсказки */
+.categories-help-box::-webkit-scrollbar {
+  width: 4px !important; /* Очень тонкая полоса */
+}
+
+.categories-help-box::-webkit-scrollbar-track {
+  background: #121212 !important;
+  border-radius: 4px;
+}
+
+.categories-help-box::-webkit-scrollbar-thumb {
+  background: #00ff88 !important; /* Наш неоновый зеленый */
+  border-radius: 4px;
+}
+
+.categories-help-box::-webkit-scrollbar-thumb:hover {
+  background: #007bff !important; /* Синий при наведении */
+}
+
+/* ==========================================================================
+   🧩 КОРРЕКТИРОВКА ВЫРАВНИВАНИЯ ИКОНОК В ФИЛЬТРАХ
+   ========================================================================== */
+
+/* Перебиваем вертикальный flex-column для обертки подписей */
+.filters-group .label-text-wrapper {
+  display: flex !important;
+  flex-direction: row !important; /* Текст и иконка строго в один ряд */
+  align-items: center !important;  /* Идеальное центрирование по высоте */
+  gap: 8px !important;            /* Расстояние между текстом и кружком */
+  width: 100% !important;
+  margin-bottom: 5px !important;  /* Отступ до выпадающего списка select */
+}
+
+/* Очищаем и фиксируем форму синей кнопки */
+.info-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 18px !important;
+  height: 18px !important;
+  background-color: #121212 !important;
+  color: #007bff !important;
+  border: 1px solid #007bff !important;
+  border-radius: 50% !important;
+  font-size: 10px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  position: relative !important;
+  user-select: none !important;
+  line-height: 1 !important;
+}
+
+/* Смещение выпадающих селекторов вниз под строку заголовка */
+.filters-group select, 
+.filters-group .custom-dropdown {
+  margin-top: 0 !important;
+}
+/* Фикс структуры элементов в блоке фильтров */
+.filter-item-block {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.filter-item-block label {
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+}
+/* Делаем аккуратные небольшие отступы между пунктами в плашке подсказок */
+.categories-help-box p {
+  margin: 8px 0 0 0 !important; /* 8px сверху (между пунктами), остальные стороны по нулям */
+  padding: 0 !important;
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+  color: #b0b0b0 !important;
+}
+
+/* Первый пункт прижимаем чуть ближе к заголовку, чтобы не было гигантской дыры */
+.categories-help-box b + p,
+.categories-help-box strong + p {
+  margin-top: 10px !important;
 }
