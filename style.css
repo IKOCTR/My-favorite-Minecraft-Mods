@@ -712,3 +712,223 @@ h1 {
   color: #fff;
   border-color: #007bff;
 }
+
+/* ==========================================================================
+   11. ИСПРАВЛЕННАЯ АНИМАЦИЯ РОДИТЕЛЬСКОЙ ИКОНКИ ДЛЯ АДДОНОВ
+   ========================================================================== */
+
+/* Контейнер для двух иконок (есть ТОЛЬКО в аддонах) */
+.mod-icon-container {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto; /* Центрируем контейнер внутри карточки */
+  transition: width 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 🛠️ ИСПРАВЛЕНИЕ: ПРИВЯЗЫВАЕМ СВОЙСТВО СТРОГО К КОНТЕЙНЕРУ АДДОНА!
+   Обычные моды без этого контейнера теперь никак не пострадают */
+.mod-icon-container img.mod-icon {
+  position: absolute !important;
+  z-index: 2; /* Поверх родительской иконки */
+  width: 64px;
+  height: 64px;
+  margin: 0 !important; /* Убираем любые внешние отступы внутри контейнера */
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Скрытая по умолчанию родительская иконка в аддоне */
+.parent-icon {
+  position: absolute;
+  z-index: 1; /* За спиной у основной иконки */
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 12px;
+  opacity: 0.25; /* Изначально полностью невидима */
+  filter: grayscale(10%) brightness(90%); /* Блеклая и черно-белая */
+  transform: translateX(-15px) scale(0.8); /* Эффект глубины */
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Подстраховка от пустых картинок */
+.parent-icon[src=""], .parent-icon:not([src]) {
+  display: none !important;
+}
+
+/* ==========================================================================
+   МАГИЯ АНИМАЦИИ ПРИ ОТКРЫТИИ КАРТОЧКИ (.is-open)
+   ========================================================================== */
+
+/* Расширяем контейнер аддона при клике */
+.my-grid-list li.is-open .mod-icon-container {
+  width: 120px; 
+}
+
+/* Иконку аддона плавно смещаем вправо */
+.my-grid-list li.is-open .mod-icon-container img.mod-icon {
+  transform: translateX(28px);
+}
+
+/* Блеклую родительскую иконку плавно выдвигаем влево */
+.my-grid-list li.is-open .mod-icon-container .parent-icon {
+  opacity: 0.4; 
+  transform: translateX(-28px) scale(0.85); 
+}
+
+/* ==========================================================================
+   12. ТЕХНИЧЕСКИЙ ГЕНЕРАТОР КАРТОЧЕК ДЛЯ АДМИНА
+   ========================================================================== */
+.generator-section {
+  display: none;
+  background-color: #161616;
+  border: 1px dashed #444;
+  border-radius: 16px;
+  padding: 30px;
+  margin-top: 60px; /* Отделяем большим отступом от списка модов */
+  margin-bottom: 40px;
+}
+
+.generator-section.is-visible {
+  display: block !important;
+}
+
+.generator-title {
+  color: #fff;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.generator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.gen-row {
+  display: flex;
+  gap: 12px;
+}
+
+.gen-row input, .gen-row select, .generator-form textarea {
+  flex: 1;
+  background-color: #1e1e1e;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.generator-form textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+#gen-btn {
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+#gen-btn:hover {
+  background-color: #2ecc71;
+}
+
+.generator-result-box {
+  margin-top: 20px;
+}
+
+#gen-result {
+  width: 100%;
+  background-color: #0d0d0d;
+  border: 1px solid #222;
+  color: #00ff88; /* Код будет красиво подсвечен зеленым */
+  font-family: monospace;
+  font-size: 13px;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: text;
+}
+
+/* Контейнер для текста и иконки, чтобы они стояли на одной линии */
+.label-text-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  margin-bottom: 5px; /* Отступ до выпадающего списка */
+}
+
+/* Стиль синей неоновой иконки [!] */
+.info-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background-color: #121212;
+  color: #007bff; /* Фирменный синий цвет сайта */
+  border: 1px solid #007bff;
+  border-radius: 50%; /* Делаем её идеально круглой */
+  font-size: 11px;
+  font-weight: bold;
+  cursor: help;
+  position: relative;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+}
+
+/* Эффект свечения при наведении на саму иконку */
+.info-icon:hover {
+  background-color: #007bff;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+}
+
+/* Большая всплывающая плашка (скрыта по умолчанию) */
+.categories-help-box {
+  position: absolute;
+  bottom: 140%; /* Появляется строго над иконкой */
+  left: 0;
+  width: 280px; /* Достаточная ширина для удобного чтения списком */
+  background-color: #161616;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #007bff; /* Синий контур */
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.5;
+  color: #b0b0b0;
+  text-align: left;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  
+  /* Анимация плавного появления */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(5px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+  z-index: 200; /* Выше всех карточек модов */
+  pointer-events: none; /* Чтобы плашка не мешала мышке */
+}
+
+.categories-help-box.to-left {
+  left: auto;   /* Отменяем выравнивание по левому краю */
+  right: 0;     /* Прижимаем правый край плашки к правому краю синей иконки */
+}
+
+/* Показываем плашку при наведении на синий кружок */
+.info-icon:hover .categories-help-box {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}

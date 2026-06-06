@@ -48,16 +48,33 @@
       <input type="text" id="search" class="search-input" placeholder="Поиск по названию или описанию...">
 
       <div class="filters-group">
-        <label>
-          Загрузчик:
+        
+        <label class="filter-loader-label">
+          <span class="label-text-wrapper">
+            Загрузчик:
+            <!-- Иконка подсказки для загрузчиков -->
+            <span class="info-icon" data-tooltip="🧱 Справочник загрузчиков модов:">
+              !
+              <!-- Всплывающая плашка с описанием -->
+              <span class="categories-help-box">
+                <strong style="color: #007bff; display: block; margin-bottom: 8px; font-size: 13px;">🧱 Загрузчики (Лоадеры):</strong>
+                <b style="color: #fff;">• Forge:</b> Старейший и самый тяжелый лоадер. На нем созданы легендарные глобальные моды прошлых лет.<br>
+                <b style="color: #fff;">• Fabric:</b> Современный, очень легкий и быстрый лоадер. Идеален для высокой оптимизации и ванильных улучшений.<br>
+                <b style="color: #fff;">• NeoForge:</b> Новый стандарт, созданный авторами оригинального Forge. Более стабильный и быстрый, заменяет Forge на версиях 1.20+.<br>
+                <b style="color: #fff;">• Quilt:</b> Независимое ответвление от Fabric. Полностью поддерживает все Fabric-моды и имеет пару своих фишек.
+              </span>
+            </span>
+          </span>
+
           <select id="filter-loader">
             <option value="all">Все</option>
             <option value="fabric">Fabric</option>
-            <option value="forge">Forge</option>li
+            <option value="forge">Forge</option>
             <option value="neoforge">NeoForge</option>
             <option value="quilt">Quilt</option>
           </select>
         </label>
+
         
         <div class="custom-dropdown">
           <span class="dropdown-label">Версия майнкрафта:</span>
@@ -75,25 +92,58 @@
           </div>
         </div>
         
-        <label>
-          Категория мода:
+        <label class="filter-custom-tag-label">
+          <span class="label-text-wrapper">
+            Категория мода:
+            <!-- Иконка подсказки -->
+            <span class="info-icon" data-tooltip="💡 Краткий справочник категорий:">
+              !
+              <!-- Большая плашка с описанием всех категорий -->
+              <span class="categories-help-box">
+                <strong style="color: #007bff; display: block; margin-bottom: 8px; font-size: 13px;">💡 Категории модов:</strong>
+                <b style="color: #fff;">• Оптимизация:</b> Повышают FPS и убирают фризы.<br>
+                <b style="color: #fff;">• Визуал:</b> Красивое небо, туман, анимации и Lod-ы.<br>
+                <b style="color: #fff;">• Интерфейс:</b> Улучшение чата, F3, худов и меню.<br>
+                <b style="color: #fff;">• Контент:</b> Новые предметы, мобы, биомы, блоки, механизмы (Create).<br>
+                <b style="color: #fff;">• Аддон:</b> Дополнения, требующие основной мод.<br>
+                <b style="color: #fff;">• Библиотека:</b> Технические ядра для работы других модов.
+              </span>
+            </span>
+          </span>
           <select id="filter-custom-tag">
             <option value="all">Все категории</option>
             <option value="оптимизация">Оптимизация</option>
             <option value="визуал">Визуал</option>
             <option value="интерфейс">Интерфейс</option>
-            <option value="контент">Новый контент</option>
-            <option value="create">Create</option>
+            <option value="контент">Контент</option>
+            <option value="аддон">Аддон</option>
             <option value="библиотека">Библиотека</option>
           </select>
         </label>
 
-        <label>
-          Сторона мода:
+        <label class="filter-side-label">
+          <span class="label-text-wrapper">
+            Сторона мода:
+            <!-- Иконка подсказки для сторон мода -->
+            <span class="info-icon" data-tooltip="⚙️ Справочник физических сторон:">
+              !
+              <!-- Всплывающая плашка с описанием сторон -->
+              <span class="categories-help-box to-left">
+                <strong style="color: #007bff; display: block; margin-bottom: 8px; font-size: 13px;">⚙️ Стороны модов:</strong>
+                <b style="color: #fff;">• Клиентский:</b> Работает только у вас. Можно использовать на любых серверах (оптимизация, интерфейс).<br>
+                <b style="color: #fff;">• Серверный:</b> Ставится только на хостинг. Игрокам качать не нужно (приваты, админки).<br>
+                <b style="color: #fff;">• Клиент и Сервер:</b> Должен быть установлен и у вас, и на сервере. Без него игра не пустит в мир (новые блоки, мобы, магия).
+              </span>
+            </span>
+          </span>
+
           <select id="filter-side">
-            <option value="all">Все</option>
+            <option value="all">Все стороны</option>
             <option value="client">Клиентский</option>
             <option value="server">Серверный</option>
+            <!-- Если у вас в коде генератора карточек используется text "Клиент + Сервер", 
+                убедитесь, что value совпадает с тем, что прописано в тегах li ваших модов -->
+            <option value="both">Клиент и Сервер</option> 
           </select>
         </label>
 
@@ -241,7 +291,7 @@
       </li>
 
       <!-- Sodium -->
-      <li data-slug="sodium" data-side="client" data-custom-tags="оптимизация">
+      <li data-slug="sodium" data-side="client" data-custom-tags="оптимизация" data-sort-group="sodium">
         <img src="icons/404.png" alt="Sodium" class="mod-icon">
         <div class="mod-meta-wrapper">
           <h3 class="mod-title">Sodium</h3>
@@ -263,8 +313,14 @@
       </li>
 
       <!-- Sodium Extra -->
-      <li data-slug="sodium-extra" data-side="client" data-custom-tags="оптимизация">
-        <img src="icons/404.png" alt="Sodium Extra" class="mod-icon">
+      <li data-slug="sodium-extra" data-side="client" data-custom-tags="оптимизация" data-sort-group="sodium">
+        
+        <!-- стильная вторая иконка родителя -->
+        <div class="mod-icon-container">
+          <img src="icons/404.png" alt="Иконка" class="mod-icon">
+          <img src="" alt="" class="parent-icon">
+        </div>
+        
         <div class="mod-meta-wrapper">
           <h3 class="mod-title">Sodium Extra</h3>
           <div class="mod-tags">
@@ -285,8 +341,12 @@
       </li>
 
       <!-- Reese's Sodium Options -->
-      <li data-slug="reeses-sodium-options" data-side="client" data-custom-tags="оптимизация, интерфейс">
-        <img src="icons/404.png" alt="Reese's Sodium Options" class="mod-icon">
+      <li data-slug="reeses-sodium-options" data-side="client" data-custom-tags="оптимизация, интерфейс" data-sort-group="sodium">
+        <!-- стильная вторая иконка родителя -->
+        <div class="mod-icon-container">
+          <img src="icons/404.png" alt="Иконка" class="mod-icon">
+          <img src="" alt="" class="parent-icon">
+        </div>
         <div class="mod-meta-wrapper">
           <h3 class="mod-title">Reese's Sodium Options</h3>
           <div class="mod-tags">
@@ -526,8 +586,91 @@
         <!-- Описание мода -->
         <div class="info-text"><p class="mod-desc">Этот мод библеотека, необходимый для работы некоторых других модов</p></div>
       </li>
+      
+      <!-- Create -->
+      <li data-slug="create" data-side="client" data-custom-tags="Контент" data-sort-group="create">
+        <img src="icons/404.png" alt="Create" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Create</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+          <span class="tag custom">Контент</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/create" target="_blank" class="modrinth-btn">Modrinth</a>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Мод добавляющий шестерни, конвееры, буры. Красивый и простой технический мод. Облегчает игру, а также делает её интересней!</p>
+        </div>
+      </li>
+
+      <!-- Create Crafts & Additions -->
+        <li data-slug="createaddition" data-side="server" data-custom-tags="Контент, Аддон" data-sort-group="create">
+          <div class="mod-icon-container">
+            <img src="icons/404.png" alt="Иконка" class="mod-icon">
+            <img src="" alt="" class="parent-icon">
+          </div>
+          
+          <div class="mod-meta-wrapper">
+            <h3 class="mod-title">Create Crafts & Additions</h3>
+            <div class="mod-tags">
+              <span class="tag side">Сервер</span>
+              <span class="api-tags"></span>
+            <span class="tag custom">Контент</span>
+            <span class="tag custom">Аддон</span>
+            </div>
+            <div class="live-versions">Версии: <span>загрузка...</span></div>
+          </div>
+          
+          <div class="mod-links-group">
+            <a href="https://modrinth.com/mod/createaddition" target="_blank" class="modrinth-btn">Modrinth</a>
+          <a href="soon.html" class="note-btn" data-tooltip="Нажмите для более подробной информации/заметки от IKOCTR 27">?</a>
+          </div>
+          
+          <div class="info-text">
+            <p class="mod-desc">Компания Create Crafts & Additions расширяет возможности Create и выступает в качестве связующего звена между электрической и кинетической энергией.</p>
+          </div>
+        </li>
 
     </ul>
+
+     <!-- СЕКРЕТНЫЙ ГЕНЕРАТОР КАРТОЧЕК ДЛЯ IKOCTR 27 -->
+  <section class="generator-section">
+    <h2 class="generator-title">🛠️ Быстрый генератор карточек li</h2>
+    <div class="generator-form">
+      <div class="gen-row">
+        <input type="text" id="gen-title" placeholder="Название мода (например: AppleSkin)">
+        <input type="text" id="gen-slug" placeholder="Slug с Modrinth (например: appleskin)">
+      </div>
+      <div class="gen-row">
+        <input type="text" id="gen-custom-tags" placeholder="Кастомные категории через запятую (например: визуал, интерфейс)">
+        <input type="text" id="gen-sort-group" placeholder="Slug родителя (ОСТАВИТЬ ПУСТЫМ, если это не аддон!)">
+      </div>
+      <div class="gen-row">
+        <select id="gen-side">
+          <option value="client">Клиент (client)</option>
+          <option value="both">Клиент и Сервер (both)</option>
+          <option value="server">Сервер(server)</option>
+        </select>
+        <input type="text" id="gen-note-url" placeholder="Имя файла заметки, если есть (например: appleskin-note.html)">
+      </div>
+      <textarea id="gen-desc" rows="3" placeholder="Описание мода от себя..."></textarea>
+      
+      <button id="gen-btn">Сгенерировать HTML-код мода</button>
+    </div>
+
+    <!-- Поле, откуда вы будете копировать готовый результат -->
+    <div class="generator-result-box">
+      <p style="margin: 0 0 8px 0; font-size: 12px; color: #666;">Нажмите кнопку выше, а затем скопируйте код из поля ниже:</p>
+      <textarea id="gen-result" rows="8" readonly onclick="this.select()" placeholder="Здесь появится ваш готовый код <li>..."></textarea>
+    </div>
+  </section>
   </div>
   <script src="script.js"></script>
 </body>
