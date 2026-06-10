@@ -78,7 +78,19 @@
           <input type="text" id="gen-note-url" placeholder="Имя файла заметки, если есть (например: appleskin-note.html)">
         </div>
         <textarea id="gen-desc" rows="3" placeholder="Описание мода от себя..."></textarea>
-        
+        <!-- Блок расширенных заметок с кнопкой вызова -->
+        <div class="extended-notes-wrapper" style="margin-bottom: 15px;">
+          <!-- Кнопка для генерации шаблона и показа поля -->
+          <button type="button" id="toggle-template-btn" class="nav-btn" style="width: 100%; padding: 12px; border: 1px dashed #00ff88; color: #00ff88; background: transparent; cursor: pointer; border-radius: 6px; font-weight: bold; transition: background 0.2s;">
+            + Добавить расширенные заметки (шаблон)
+          </button>
+
+          <!-- Контейнер с полем, изначально скрыт -->
+          <div id="extended-notes-container" style="display: none; margin-top: 15px;">
+            <textarea id="gen-full-notes" rows="8" placeholder="Расширенные заметки (HTML поддерживается: картинки, видео, списки)"></textarea>
+          </div>
+        </div>
+
         <button id="gen-btn">Сгенерировать HTML-код мода</button>
       </div>
 
@@ -626,8 +638,112 @@
           <p class="mod-desc">Откройте сундук через рамки и таблички, не взаимодействуя с ними! ( Нажмите shift чтобы снова с ними взаимодействовать )</p>
         </div>
       </li>
+      
+      <!-- Voxy -->
+      <li data-slug="voxy" data-side="client" data-custom-tags="Оптимизация, Визуал" data-sort-group="voxy">
+        <img src="icons/404.png" alt="Voxy" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Voxy</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+      <span class="tag custom">Оптимизация</span>
+      <span class="tag custom">Визуал</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/voxy" target="_blank" class="modrinth-btn">Modrinth</a>
+    <button type="button" class="note-btn" data-tooltip="Открыть заметки от IK 27">?</button>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Этот мод ЗАПОМИНАЕТ прогруженные чанки, и продолжает их отрисовывать даже если они находиться за радиусом прогрузки. Чтобы ФПС не пропали, чанки рендеряться с меньшим качеством (чем дальше - тем меньше качества). Это позволяет иметь хорошую прорисовку и нормальный ФПС!</p>
+        </div>
+        <!-- Блок расширенных заметок -->
+        <div class="mod-full-notes" style="display: none;">
+          <h2 style="margin-top:0; color:#00ff88; font-size:22px; font-family:sans-serif;">Справка о Voxy и Distant Horizons</h2>
+          <p>Видео про работу Voxy и сравнение с Distant Horizons</p>
+          <p style="opacity: 70%; font-style: italic;">(спойлер - Voxy лучше)</p>
+
+          <!-- Шаблон: Зеленая заметка от IK 27 -->
+          <div style="background: rgba(0, 255, 136, 0.1); border-left: 4px solid #00ff88; padding: 12px 15px; border-radius: 0 8px 8px 0; margin: 15px 0; color: #fff;">
+            <strong>Что делать если на мне нужную версию нету Voxy?:</strong> В таком случае уже качаем Distant Horizons
+          </div>
+
+          <!-- Шаблон: Видео с YouTube (подставьте ID своего видео вместо dQw4w9WgXcQ) -->
+          <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin:15px 0; border-radius:8px; background:#000;">
+            <iframe src="https://www.youtube.com/embed/vBC4qya4qfo?si=2G_nEx33Gq-mc4f0" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+          </div>
+
+          <!-- Шаблон: Ссылки и конфиги -->
+          <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <a href="https://modrinth.com/mod/distanthorizons" target="_blank" class="nav-btn" style="display:inline-block; text-decoration:none; padding:10px 20px; font-family:sans-serif; border:1px solid #00ff88; color:#00ff88; border-radius:4px;">Скачать Distant Horizons</a>
+            <a href="https://modrinth.com/mod/voxy" target="_blank" class="nav-btn" style="display:inline-block; text-decoration:none; padding:10px 20px; font-family:sans-serif; border:1px solid #00ff88; color:#00ff88; border-radius:4px;">Скачать Voxy</a>
+          </div>
+        </div>
+      </li>
+
+      <!-- Distant Horizons -->
+      <li data-slug="DistantHorizons" data-side="client" data-custom-tags="Оптимизация, Визуал" data-sort-group="DistantHorizons">
+        <img src="icons/404.png" alt="Distant Horizons" class="mod-icon">
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Distant Horizons</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент</span>
+            <span class="api-tags"></span>
+      <span class="tag custom">Оптимизация</span>
+      <span class="tag custom">Визуал</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/DistantHorizons" target="_blank" class="modrinth-btn">Modrinth</a>
+    <button type="button" class="note-btn" data-tooltip="Открыть заметки от IK 27">?</button>
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">Этот мод ЗАПОМИНАЕТ прогруженные чанки, и продолжает их отрисовывать даже если они находиться за радиусом прогрузки. Чтобы ФПС не пропали, чанки рендеряться с меньшим качеством (чем дальше - тем меньше качества). Это позволяет иметь хорошую прорисовку и нормальный ФПС!</p>
+        </div>
+    <!-- Блок расширенных заметок -->
+    <div class="mod-full-notes" style="display: none;">
+      <h2 style="margin-top:0; color:#00ff88; font-size:22px; font-family:sans-serif;">Справка о Voxy и Distant Horizons</h2>
+          <p>Видео про работу Voxy и сравнение с Distant Horizons</p>
+          <p style="opacity: 70%; font-style: italic;">(спойлер - Voxy лучше)</p>
+
+          <!-- Шаблон: Зеленая заметка от IK 27 -->
+          <div style="background: rgba(0, 255, 136, 0.1); border-left: 4px solid #00ff88; padding: 12px 15px; border-radius: 0 8px 8px 0; margin: 15px 0; color: #fff;">
+            <strong>Что делать если на мне нужную версию нету Voxy?:</strong> В таком случае уже качаем Distant Horizons
+          </div>
+
+          <!-- Шаблон: Видео с YouTube (подставьте ID своего видео вместо dQw4w9WgXcQ) -->
+          <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin:15px 0; border-radius:8px; background:#000;">
+            <iframe src="https://www.youtube.com/embed/vBC4qya4qfo?si=2G_nEx33Gq-mc4f0" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+          </div>
+
+          <!-- Шаблон: Ссылки и конфиги -->
+          <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <a href="https://modrinth.com/mod/distanthorizons" target="_blank" class="nav-btn" style="display:inline-block; text-decoration:none; padding:10px 20px; font-family:sans-serif; border:1px solid #00ff88; color:#00ff88; border-radius:4px;">Скачать Distant Horizons</a>
+            <a href="https://modrinth.com/mod/voxy" target="_blank" class="nav-btn" style="display:inline-block; text-decoration:none; padding:10px 20px; font-family:sans-serif; border:1px solid #00ff88; color:#00ff88; border-radius:4px;">Скачать Voxy</a>
+          </div>
+    </div>
+      </li>
 
     </ul>
+  </div>
+
+  <!-- Полноэкранная плашка для заметок -->
+  <div id="notes-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close-btn">&times;</button>
+      <div id="modal-body-content">
+        <!-- Сюда JS будет вставлять контент -->
+      </div>
+    </div>
   </div>
   <script src="script.js"></script>
 </body>

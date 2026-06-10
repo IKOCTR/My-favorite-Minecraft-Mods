@@ -369,8 +369,11 @@ window.addEventListener('DOMContentLoaded', () => {
       let sortGroup = document.getElementById('gen-sort-group').value.trim() || slug;
       const side = document.getElementById('gen-side').value;
       const noteUrl = document.getElementById('gen-note-url').value.trim();
+      const fullNotesContent = document.getElementById('gen-full-notes')?.value.trim() || '';
       const desc = genDescInput.value.trim();
-
+      // Проверяем, открыто ли поле заметок и есть ли там текст
+      const notesContainerCheck = document.getElementById('extended-notes-container');
+      const isNotesVisible = notesContainerCheck && notesContainerCheck.style.display !== 'none';
       if (!title || !slug) return alert('Пожалуйста, введите Название и Slug мода!');
 
       let sideText = side === 'both' ? 'Клиент + Сервер' : (side === 'server' ? 'Сервер' : 'Клиент');
@@ -383,9 +386,42 @@ window.addEventListener('DOMContentLoaded', () => {
         ? `  <div class="mod-icon-container">\n      <img src="icons/404.png" alt="Иконка" class="mod-icon">\n      <img src="" alt="" class="parent-icon">\n    </div>`
         : `  <img src="icons/404.png" alt="${title}" class="mod-icon">`;
 
-      let noteBtnHtml = noteUrl ? `\n    <a href="${noteUrl}" class="note-btn" data-tooltip="Нажмите для заметок">?</a>` : '';
+      // let noteBtnHtml = noteUrl ? `\n    <a href="${noteUrl}" class="note-btn" data-tooltip="Нажмите для заметок">?</a>` : '';
 
-      const resultHtml = `<!-- ${title} -->\n  <li data-slug="${slug}" data-side="${side}" data-custom-tags="${customTags}" data-sort-group="${sortGroup}">\n  ${iconHtml}\n    \n    <div class="mod-meta-wrapper">\n      <h3 class="mod-title">${title}</h3>\n      <div class="mod-tags">\n        <span class="tag side">${sideText}</span>\n        <span class="api-tags"></span>${customTagsHtml}\n      </div>\n      <div class="live-versions">Версии: <span>загрузка...</span></div>\n    </div>\n    \n    <div class="mod-links-group">\n      <a href="https://modrinth.com/mod/${slug}" target="_blank" class="modrinth-btn">Modrinth</a>${noteBtnHtml}\n    </div>\n    \n    <div class="info-text">\n      <p class="mod-desc">${desc}</p>\n    </div>\n  </li>`;
+      // Подготовка безопасного описания
+      const safeDesc = desc.replace(/"/g, '&quot;').replace(/\n/g, ' ');
+      
+      // Логика проверки: создаем расширенные заметки только если поле видно и в нем есть текст
+      let noteBtnHtml = '';
+      let finalFullNotesHtml = '';
+
+      if (isNotesVisible && fullNotesContent.length > 0) {
+        noteBtnHtml = `\n    <button type="button" class="note-btn" data-tooltip="Открыть заметки от IK 27">?</button>`;
+        finalFullNotesHtml = `\n    <!-- Блок расширенных заметок -->\n    <div class="mod-full-notes" style="display: none;">\n      ${fullNotesContent}\n    </div>`;
+      }
+
+      // Собираем итоговую разметку карточки li
+      const resultHtml = `<!-- ${title} -->
+      <li data-slug="${slug}" data-side="${side}" data-custom-tags="${customTags}" data-sort-group="${sortGroup}">
+      ${iconHtml}
+        
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">${title}</h3>
+          <div class="mod-tags">
+            <span class="tag side">${sideText}</span>
+            <span class="api-tags"></span>${customTagsHtml}
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/${slug}" target="_blank" class="modrinth-btn">Modrinth</a>${noteBtnHtml}
+        </div>
+        
+        <div class="info-text">
+          <p class="mod-desc">${desc}</p>
+        </div>${finalFullNotesHtml}
+      </li>`;
 
       const resultArea = document.getElementById('gen-result');
       if (resultArea) {
@@ -412,6 +448,48 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   });
   window.addEventListener('keyup', (e) => pressedKeys.delete(e.code));
+  
+  // Логика кнопки показа шаблона заметок и авто-высоты поля
+  const toggleTemplateBtn = document.getElementById('toggle-template-btn');
+  const notesContainer = document.getElementById('extended-notes-container');
+  const mainNotesTextArea = document.getElementById('gen-full-notes');
+
+  if (toggleTemplateBtn && notesContainer && mainNotesTextArea) {
+    // Функция авто-подгонки высоты под объем текста
+    const autoResizeNotes = () => {
+      mainNotesTextArea.style.height = 'auto';
+      mainNotesTextArea.style.height = mainNotesTextArea.scrollHeight + 'px';
+    };
+
+    toggleTemplateBtn.addEventListener('click', () => {
+      // Исправлено чтение свойства display: убрано лишнее .style
+      if (notesContainer.style.display === 'none' || notesContainer.style.display === '') {
+        notesContainer.style.display = 'block';
+        toggleTemplateBtn.innerHTML = '❌ Удалить / Скрыть расширенные заметки';
+        toggleTemplateBtn.style.border = '1px dashed #ff4757';
+        toggleTemplateBtn.style.color = '#ff4757';
+
+        // Записываем шаблон, если поле абсолютно пустое
+        if (!mainNotesTextArea.value.trim()) {
+          mainNotesTextArea.value = `<h2 style="margin-top:0; color:#00ff88; font-size:22px; font-family:sans-serif;">Справка о моде</h2>\n<p>Краткое описание мода для раскрывающейся плашки...</p>\n\n<!-- Шаблон: Картинка с рамкой -->\n<img src=icons/"404.png alt="Скриншот" style="width:100%; border-radius:8px; margin:15px 0; border:1px solid #333; display:block;">\n\n<!-- Шаблон: Зеленая заметка от IK 27 -->\n<div style="background: rgba(0, 255, 136, 0.1); border-left: 4px solid #00ff88; padding: 12px 15px; border-radius: 0 8px 8px 0; margin: 15px 0; color: #fff;">\n  <strong>Заметка от IKOCTR 27:</strong> Текст вашего особого предупреждения.\n</div>\n\n<!-- Шаблон: Видео с YouTube (подставьте ID своего видео вместо dQw4w9WgXcQ) -->\n<div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin:15px 0; border-radius:8px; background:#000;">\n  <iframe src="https://youtube.com" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>\n</div>\n\n<!-- Шаблон: Ссылки и конфиги -->\n<div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">\n  <a href="имя_файла.html" target="_blank" class="nav-btn" style="display:inline-block; text-decoration:none; padding:10px 20px; font-family:sans-serif; border:1px solid #00ff88; color:#00ff88; border-radius:4px;">📄 Открыть HTML-страницу</a>\n  <a href="downloads/config.json" download class="nav-btn active" style="display:inline-block; text-decoration:none; padding:10px 20px; font-family:sans-serif; background:#00ff88; color:#000; border-radius:4px; font-weight:bold;">📥 Скачать конфиг</a>\n</div>`;
+        }
+
+        // Вызываем перерасчет высоты сразу после вставки шаблона
+        autoResizeNotes();
+      } else {
+        // Очищаем поле при закрытии, чтобы кнопка "?" случайно не сгенерировалась
+        notesContainer.style.display = 'none';
+        mainNotesTextArea.value = ''; 
+        toggleTemplateBtn.innerHTML = '➕ Добавить расширенные заметки (шаблон)';
+        toggleTemplateBtn.style.border = '1px dashed #00ff88';
+        toggleTemplateBtn.style.color = '#00ff88';
+      }
+    });
+
+    // Отслеживаем ввод текста пользователем для динамического изменения высоты
+    mainNotesTextArea.addEventListener('input', autoResizeNotes);
+  }
+
 
   // Обязательно активируем иконки подсказок [!]
   initInfoIcons();
@@ -423,3 +501,56 @@ document.addEventListener('click', (e) => {
     document.querySelectorAll('.categories-help-box').forEach(box => box.classList.remove('show'));
   }
 });
+
+
+// ==========================================================================
+// ЛОГИКА ПОЛНОЭКРАННОГО МОДАЛЬНОГО ОКНА ДЛЯ ЗАМЕТОК (ОБНОВЛЕННАЯ)
+// ==========================================================================
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('notes-modal');
+  const modalBody = document.getElementById('modal-body-content');
+  const modalClose = document.querySelector('.modal-close-btn');
+
+  // Ловим нажатие на "?" в списке модов
+  document.getElementById('mods-list')?.addEventListener('click', (e) => {
+    const noteBtn = e.target.closest('.note-btn');
+    if (!noteBtn) return;
+    
+    e.stopPropagation(); // Стопаем раскрытие карточки мода
+
+    // Находим родительский элемент li конкретного мода
+    const li = noteBtn.closest('li');
+    if (!li) return;
+
+    // Вытаскиваем из этого li блок с полной разметкой заметок
+    const fullNotesSource = li.querySelector('.mod-full-notes');
+    
+    if (modalBody && modal) {
+      if (fullNotesSource) {
+        // Копируем весь HTML-контент (текст, фото, видео) внутрь модалки
+        modalBody.innerHTML = fullNotesSource.innerHTML;
+      } else {
+        // Если забыли добавить блок .mod-full-notes в HTML
+        modalBody.innerHTML = `<h2 style="margin-top:0; color:#ff4757;">Ошибка</h2><p>Для этого мода еще не созданы расширенные заметки.</p>`;
+      }
+      
+      modal.classList.add('is-active');
+      document.body.style.overflow = 'hidden'; // Отключаем скролл сайта
+    }
+  });
+
+  // Закрытие модального окна (при клике на крестик, фон или кнопку Escape)
+  if (modalClose && modal) {
+    const closeModal = () => {
+      modal.classList.remove('is-active');
+      document.body.style.overflow = ''; // Возвращаем скролл сайту
+      if (modalBody) modalBody.innerHTML = ''; // Очищаем код (чтобы выключить видео с Ютуба, если оно играло)
+    };
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  }
+});
+
+
