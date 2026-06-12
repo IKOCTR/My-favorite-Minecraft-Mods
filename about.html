@@ -193,24 +193,47 @@
               <div class="header-left">
                   <img src="icons/about.png" alt="IK" class="header-logo">
                   <div class="header-title-block">
-                  <span class="header-nickname">IKOCTR 27</span>
-                  <!-- Заголово статьи -->
-                  <h1 class="header-site-title">О сайте - справка и гайд</h1>
+                    <span class="header-nickname">IKOCTR 27</span>
+                    <!-- Заголово статьи -->
+                    <h1 class="header-site-title">О сайте - справка и гайд</h1>
                   </div>
               </div>
           </header>
-          <h2 style="color: #00ff88;">Зачем нужен данный сайт?</h2>
+
+          <!-- НОВЫЙ БЛОК: Выпадающее содержание -->
+          <div class="about-toc-container">
+              <button type="button" id="toc-toggle-btn" class="nav-btn-content">📕 СОДЕРЖАНИЕ</button>
+              <div id="toc-menu" class="toc-dropdown-menu">
+                  <button class="toc-item" data-target="#reason">Зачем нужен данный сайт?</button>
+                  <button class="toc-item" data-target="#how-to-use">Как им пользоваться?</button>
+                  <button class="toc-item" data-target="#search-block">1) Поиск</button>
+                  <button class="toc-item" data-target="#filters-block">2) Фильтры</button>
+                  <button class="toc-item" data-target="#counter-block">3) Счетчик</button>
+                  <button class="toc-item" data-target="#mod-simple">4.1) Плашка мода (Обычная)</button>
+                  <button class="toc-item" data-target="#mod-addon">4.2) Плашка мода (Аддон)</button>
+                  <button class="toc-item" data-target="#mod-details">4.3) Плашка мода (С описанием)</button>
+                  <button class="toc-item" data-target="#download-mod">5) Скачивание модов</button>
+                  <button class="toc-item" data-target="#install-guide">Гайд по установке</button>
+                  <button class="toc-item" data-target="#news-block">Новое</button>
+                  <button class="toc-item" data-target="#suggestions-block">Предложения</button>
+              </div>
+          </div>
+
+          <h2 id="reason" style="color: #00ff88;">Зачем нужен данный сайт?</h2>
           <p><b>Этот сайт я сделал для 2-ух вещей:</b></p>
           <p>1) Сохранить удобный список моих любимых модов, чтобы потом их не потерять <br>
           2) Делиться этим списком с остальными <br>
           3) Удобная сортировка сотни модов, при их сборке на разные версии и загрузчики</p>
-          <h2 style="color: #a1e3ff;">Как им пользоваться?</h2>
-          <h2>1) Поиск</h2>
+          
+          <h2 id="how-to-use" style="color: #a1e3ff;">Как им пользоваться?</h2>
+          
+          <h2 id="search-block"> 1) Поиск</h2>
           <p>
             Все просто! Вы вводите текст в поле ПОИСК и вам высвечиваються только те моды, у которых
             в названии или описании есть текст введенный в поле ПОИСК
           </p>
-          <h2>2) Фильтры</h2>
+          
+          <h2 id="filters-block">2) Фильтры</h2>
           <p>
             • При навидении на синий значок [ ! ] - выведиться краткая информация о доступных фильтрах.
           </p>
@@ -229,7 +252,8 @@
             <img src="icons/a_filters.png" alt="Фильтры">
             <span class="image-caption">Фильтры: Forge и Визуал</span>
           </div>
-          <h2>3) Счетчик</h2>
+          
+          <h2 id="counter-block">3) Счетчик</h2>
           <p>
             Все просто! <b>Левое число</b> - показывает сколько модов соотвествует выставленным фильтрам/поиску <br>
             <b>Левое число</b> - сколько всего модов на сайте
@@ -238,7 +262,8 @@
             <img src="icons/a_counter.png" alt="Счетчик">
             <span class="image-caption">Счетчик модов</span>
           </div>
-          <h2>4.1) Плашка мода (Обычная)</h2>
+          
+          <h2 id="mod-simple">4.1) Плашка мода (Обычная)</h2>
           <p>
             Плашка мода представляет из себя:
           </p>
@@ -261,7 +286,7 @@
             Моды сортируються по умолчанию в <b>алфавитном</b> порядке<br>
           </p>
           
-          <h2>4.2) Плашка мода (Аддон)</h2>
+          <h2 id="mod-addon">4.2) Плашка мода (Аддон)</h2>
           <div style="display: flex; width: 100%; justify-content: center;">
             <div class="note-image-box">
               <img src="icons/a_mod_addon.png" alt="лашка мод аддона следует за своим родителем">
@@ -278,7 +303,7 @@
             • При раскрытии описания, слева от иконки Аддона, выплывает тускалая иконка мода родителя
           </p>
 
-          <h2>4.3) Плашка мода (С подробным описанием)</h2>
+          <h2 id="mod-details">4.3) Плашка мода (С подробным описанием)</h2>
           <div class="note-image-box">
             <img src="icons/a_mod_Hdisc1.png" alt="Плашка мода имеющего подробное описание">
             <span class="image-caption">Плашки модов имеющих подробное описание (краткое описание не куда не делось)</span>
@@ -301,7 +326,7 @@
             • <b>Кнопку "СКАЧАТЬ"</b> (обычно мои конфиги (настройки) мода)<br>
           </p>
 
-          <h2 style="color: #00ff88;">5) Скачивание модов с Modrinth</h2>
+          <h2 id="download-mod" style="color: #00ff88;">5) Скачивание модов с Modrinth</h2>
           <p>
             Вы уже могли заметить что у всех модов есть плашка <b>Modrinth</b><br>
             Этот пункт для тех, кто не понимает как скачать мод...
@@ -334,9 +359,11 @@
               Не забывайте что вы можете отсортировать моды по интересующим вам версиям и загрузчикам!
             </p>
           </div>
-          <h2 style="color: rgb(250, 76, 76);">Гайд по установке майнкрафта и модов</h2>
+          
+          <h2 id="install-guide" style="color: rgb(250, 76, 76);">Гайд по установке майнкрафта и модов</h2>
           <p>Смотрите на главной, в блоке с информационными кнопками (О сайте, новое и т.д.)</p>
-          <h2 style="color: #ffee00;">Новое</h2>
+          
+          <h2 id="news-block" style="color: #ffee00;">Новое</h2>
           <div class="note-image-box">
             <img src="icons/a_nav_news.png" alt="Вкладка ✨Новое✨">
             <span class="image-caption">Вкладка ✨Новое✨</span>
@@ -346,7 +373,8 @@
             добавление новых модов или функций и фишек для сайта. <br>
             <b>Последние обновления - сверху, старые - снизу.</b>
           </p>
-          <h2 style="color: #ffee00;">Предложения</h2>
+          
+          <h2 id="suggestions-block" style="color: #ffee00;">Предложения</h2>
           <p>
             Писать свои предложения для улучшения сайта, или добавления модов
             вы можете на моем GitHub в репозитории с этим сайтом, во вкладке <b>Issues</b><br>
@@ -367,33 +395,96 @@
 
     </div>
 
+    <button type="button" id="scroll-to-top-btn" title="Наверх">⬆</button>
   </body>
   <script>
     window.addEventListener('DOMContentLoaded', async () => {
-      const header = document.querySelector('.note-header');
-      if (!header) return;
-
-      const slug = header.getAttribute('data-slug');
-      if (!slug) return;
-
-      try {
-        // Делаем один быстрый запрос к API за данными проекта
-        const response = await fetch(`https://api.modrinth.com/v2/project/${slug}`, {
-          method: 'GET',
-          headers: { 'User-Agent': 'MyFavMinecraftModsWebsite/1.0' }
-        });
-        
-        if (response.ok) {
-          const projectData = await response.json();
-          // Если у мода есть официальная иконка — подставляем её
-          if (projectData && projectData.icon_url) {
-            const imgTag = header.querySelector('.header-logo');
-            if (imgTag) imgTag.src = projectData.icon_url;
-          }
+    // === Существующий код загрузки иконки с Modrinth ===
+    const header = document.querySelector('.note-header');
+    if (header) {
+        const slug = header.getAttribute('data-slug');
+        if (slug) {
+            try {
+                const response = await fetch(`https://api.modrinth.com/v2/project/${slug}`, {
+                    method: 'GET',
+                    headers: { 'User-Agent': 'MyFavMinecraftModsWebsite/1.0' }
+                });
+                if (response.ok) {
+                    const projectData = await response.json();
+                    if (projectData && projectData.icon_url) {
+                        const imgTag = header.querySelector('.header-logo');
+                        if (imgTag) imgTag.src = projectData.icon_url;
+                    }
+                }
+            } catch (err) {
+                console.error('Не удалось загрузить иконку для шапки:', err);
+            }
         }
-      } catch (err) {
-        console.error('Не удалось загрузить иконку для шапки:', err);
-      }
+    }
+
+    // === НОВЫЙ КОД: Логика содержания (TOC) ===
+    const tocToggleBtn = document.getElementById('toc-toggle-btn');
+    const tocMenu = document.getElementById('toc-menu');
+
+    if (tocToggleBtn && tocMenu) {
+        // Открытие / закрытие содержания по кнопке
+        tocToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            tocMenu.classList.toggle('show');
+        });
+
+        // Закрытие меню при клике в любое другое место экрана
+        document.addEventListener('click', () => {
+            tocMenu.classList.remove('show');
+        });
+
+        // Плавный скролл к блокам по клику на пункт меню
+        tocMenu.querySelectorAll('.toc-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const targetSelector = item.getAttribute('data-target');
+                const targetElement = document.querySelector(targetSelector);
+                
+                if (targetElement) {
+                    // Вычисляем позицию элемента на странице
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                    
+                    // Задаем отступ сверху в пикселях (40px для красивого зазора)
+                    const offsetPosition = elementPosition - 40;
+
+                    // Запускаем плавную прокрутку до вычисленной точки
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+                tocMenu.classList.remove('show');
+            });
+        });
+    }
+
+    // === НОВЫЙ КОД: Кнопка "Наверх" ===
+    const scrollTopBtn = document.getElementById('scroll-to-top-btn');
+
+    if (scrollTopBtn) {
+        // Следим за прокруткой страницы
+        window.addEventListener('scroll', () => {
+            // Если прокрутили больше 300px — показываем кнопку
+            if (window.scrollY > 300) {
+                scrollTopBtn.style.display = 'flex';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
+        });
+
+        // Плавный возврат на самый верх при клике
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        }
     });
   </script>
+
 </html>

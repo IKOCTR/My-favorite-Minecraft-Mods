@@ -178,6 +178,9 @@
       .note-container {
           padding-top: 20px !important;
       }
+      .about-toc-container{
+        margin-bottom: 0%;
+      }
     </style>
   </head>
   <body>
@@ -189,18 +192,61 @@
       <main class="note-container">
         <!-- красивая шапка -->
         <!-- data-slag = "назване мода в ссылки на modrinth" -->
-          <header class="main-header note-header" data-slug="">
-              <div class="header-left">
-                  <img src="icons/news.png" alt="IK" class="header-logo">
-                  <div class="header-title-block">
-                  <span class="header-nickname">IKOCTR 27</span>
-                  <!-- Заголово статьи -->
-                  <h1 class="header-site-title">Список изменений на сайте</h1>
-                  </div>
-              </div>
-          </header>
+        <header class="main-header note-header" data-slug="">
+            <div class="header-left">
+                <img src="icons/news.png" alt="IK" class="header-logo">
+                <div class="header-title-block">
+                <span class="header-nickname">IKOCTR 27</span>
+                <!-- Заголово статьи -->
+                <h1 class="header-site-title">Список изменений на сайте</h1>
+                </div>
+            </div>
+        </header>
+
+        <!-- НОВЫЙ БЛОК: Выпадающее содержание -->
+        <div class="about-toc-container">
+          <button type="button" id="toc-toggle-btn" class="nav-btn-content">📕 СОДЕРЖАНИЕ</button>
+          <div id="toc-menu" class="toc-dropdown-menu">
+            <button class="toc-item" data-target="#P-r_v3">- - - Pre-release v3 - - -</button>
+            <button class="toc-item" data-target="#P-r_v2">- - - Pre-release v2 - - -</button>
+            <button class="toc-item" data-target="#P-r_v1">- - - Pre-release v1 - - -</button>
+          </div>
+        </div>
+
         <div class="important-note">
-          <p> - - - Pre-release v2 - - - </p>
+          <p id="P-r_v3"> - - - Pre-release v3 - - - </p>
+          <p> <b>❤️Лайки, ⭐избраное, верстка</b> и помелочи!</p>
+        </div>
+        <p>
+          1) <b>❤️Лайки и ⭐избраное</b> <br>
+          Теперь на сайте есть возможность зайти с помощью Google Аккаунт! <br>
+          <b>Что это дает? При заходе через аккаунт вы можете:</b><br>
+          • Ставить лайки ❤️ <br>
+          • Добавлять моды в ⭐избраное (для того чтобы не потерять понравившееся моды)
+        </p>
+        <p>
+          2) <b>Секретная панель - final race (я надеюсь...)</b> <br>
+          Теперь она генерит плашку с НОРМАЛЬНЫМИ отступами, для удобной вставки в код!
+        </p>
+        <p>
+          3) <b>📕Содержание</b> <br>
+          Теперь на страничках информационных кнопок доступна меню СОДЕРЖАНИЕ! 
+          Вы можете нажать на него и выбрать блок, к которому хотите перемиститься. 
+          Для возращение обратно (на верх страницы) нажмите справа-снизу кноаку с стрелочкой. 
+          Это позваоляет очень удобно орентироваться в этих статьях!
+        </p>
+        <p>
+          4) <b>мелкие фиксы багов</b> <br>
+        </p>
+        <p><b>Список добавленных модов:</b> <br>
+          • Voxy <br> • Distant Horizons <br>
+          Все остальные удалил (по причинам разработки). 
+          Верну их и добавлю все остальные 150 с лишним модов в следущей
+          Релизной версии (ну... я так надеюсь...)
+        </p>
+
+        <div class="important-note">
+          <p id="P-r_v2"> - - - Pre-release v2 - - - </p>
           <p> Доделанная страница - <b>ℹ️О сайте</b> и мелкие изминения ) </p>
         </div>
         <p>
@@ -225,7 +271,7 @@
         </p>
         
         <div class="important-note">
-          <p> - - - Pre-release v1 - - - </p>
+          <p id="P-r_v1"> - - - Pre-release v1 - - - </p>
           <p> Краткое описание функций сайта ( больше инфо будет в кнопке <b>ℹ️О сайте</b> ) </p>
         </div>
         <p>1) <b>Панель кнопок с информацией</b></p>
@@ -246,34 +292,95 @@
       </main>
 
     </div>
-
+    <button type="button" id="scroll-to-top-btn" title="Наверх">⬆</button>
   </body>
   <script>
     window.addEventListener('DOMContentLoaded', async () => {
-      const header = document.querySelector('.note-header');
-      if (!header) return;
-
-      const slug = header.getAttribute('data-slug');
-      if (!slug) return;
-
-      try {
-        // Делаем один быстрый запрос к API за данными проекта
-        const response = await fetch(`https://api.modrinth.com/v2/project/${slug}`, {
-          method: 'GET',
-          headers: { 'User-Agent': 'MyFavMinecraftModsWebsite/1.0' }
-        });
-        
-        if (response.ok) {
-          const projectData = await response.json();
-          // Если у мода есть официальная иконка — подставляем её
-          if (projectData && projectData.icon_url) {
-            const imgTag = header.querySelector('.header-logo');
-            if (imgTag) imgTag.src = projectData.icon_url;
-          }
+    // === Существующий код загрузки иконки с Modrinth ===
+    const header = document.querySelector('.note-header');
+    if (header) {
+        const slug = header.getAttribute('data-slug');
+        if (slug) {
+            try {
+                const response = await fetch(`https://api.modrinth.com/v2/project/${slug}`, {
+                    method: 'GET',
+                    headers: { 'User-Agent': 'MyFavMinecraftModsWebsite/1.0' }
+                });
+                if (response.ok) {
+                    const projectData = await response.json();
+                    if (projectData && projectData.icon_url) {
+                        const imgTag = header.querySelector('.header-logo');
+                        if (imgTag) imgTag.src = projectData.icon_url;
+                    }
+                }
+            } catch (err) {
+                console.error('Не удалось загрузить иконку для шапки:', err);
+            }
         }
-      } catch (err) {
-        console.error('Не удалось загрузить иконку для шапки:', err);
-      }
+    }
+
+    // === НОВЫЙ КОД: Логика содержания (TOC) ===
+    const tocToggleBtn = document.getElementById('toc-toggle-btn');
+    const tocMenu = document.getElementById('toc-menu');
+
+    if (tocToggleBtn && tocMenu) {
+        // Открытие / закрытие содержания по кнопке
+        tocToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            tocMenu.classList.toggle('show');
+        });
+
+        // Закрытие меню при клике в любое другое место экрана
+        document.addEventListener('click', () => {
+            tocMenu.classList.remove('show');
+        });
+
+        // Плавный скролл к блокам по клику на пункт меню
+        tocMenu.querySelectorAll('.toc-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const targetSelector = item.getAttribute('data-target');
+                const targetElement = document.querySelector(targetSelector);
+                
+                if (targetElement) {
+                    // Вычисляем позицию элемента на странице
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                    
+                    // Задаем отступ сверху в пикселях (40px для красивого зазора)
+                    const offsetPosition = elementPosition - 40;
+
+                    // Запускаем плавную прокрутку до вычисленной точки
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+                tocMenu.classList.remove('show');
+            });
+        });
+    }
+
+    // === НОВЫЙ КОД: Кнопка "Наверх" ===
+    const scrollTopBtn = document.getElementById('scroll-to-top-btn');
+
+    if (scrollTopBtn) {
+        // Следим за прокруткой страницы
+        window.addEventListener('scroll', () => {
+            // Если прокрутили больше 300px — показываем кнопку
+            if (window.scrollY > 300) {
+                scrollTopBtn.style.display = 'flex';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
+        });
+
+        // Плавный возврат на самый верх при клике
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        }
     });
   </script>
 </html>
