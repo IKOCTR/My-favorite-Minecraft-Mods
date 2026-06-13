@@ -1709,3 +1709,30 @@ button.note-btn {
   border-color: #007bff;
   box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
 }
+
+/* Специальный жёлтый стиль для иконки авторизации */
+.info-icon.google-help-icon {
+  color: #f1c40f !important;
+  border-color: #f1c40f !important;
+}
+
+/* Эффект свечения при наведении */
+.info-icon.google-help-icon:hover {
+  background-color: #f1c40f !important;
+  color: #121212 !important;
+  box-shadow: 0 0 10px rgba(241, 196, 15, 0.6) !important;
+}
+
+/* Позиционирование всплывающего окна над кнопкой входа */
+.info-icon.google-help-icon .categories-help-box {
+  width: 310px;
+  border-color: #f1c40f !important;
+}
+
+/* Окраска полосы прокрутки в жёлтый неон */
+.info-icon.google-help-icon .categories-help-box::-webkit-scrollbar-thumb {
+  background: #f1c40f !important;
+}
+.info-icon.google-help-icon .categories-help-box::-webkit-scrollbar-thumb:hover {
+  background: #f39c12 !important;
+}
