@@ -3,7 +3,7 @@
 // ==========================================================================
 // Импортируем Firebase модули напрямую в скрипт
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithCredential, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithCredential, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, arrayUnion, arrayRemove, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const searchInput = document.getElementById('search');
@@ -860,7 +860,7 @@ document.addEventListener('DOMContentLoaded', () => {
           lastUpdated: serverTimestamp() // Пишем время запроса для защиты от кликера
         });
         likeBtn.classList.remove('is-liked');
-        likeBtn.querySelector('.heart-icon').textContent = " ";
+        likeBtn.querySelector('.heart-icon').textContent = "❤";
         globalLikesData[slug]--;
       } else {
         // Ставим лайк. Если документа еще нет (первый лайк), используем setDoc
@@ -1088,9 +1088,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Проверяем: если мы НЕ на локальном компьютере, то подгружаем данные из Firebase
   if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
     loadGlobalLikes();
-    initGoogleOneTap();
-  } else {
-    console.log("Разработка локально: Firebase функции лайков и авторизации отключены.");
-  }
+    onAuthStateChanged(auth, (user) => {
+    const loginBtn = document.querySelector('.google-auth-btn'); // Находим вашу кнопку войти (по её классу из HTML)
+    
+    if (user && user.providerData.some(p => p.providerId === 'google.com')) {
+      currentUser = user; // Фиксируем пользователя в глобальной переменной
+      
+      // Меняем интерфейс кнопки на приветствие
+      if (loginBtn) {
+        loginBtn.innerHTML = `🟢 Привет, ${user.displayName.split(' ')[0]}!`; // Берем только имя без фамилии
+        loginBtn.style.background = "linear-gradient(135deg, #2ecc71, #27ae60)";
+        loginBtn.style.boxShadow = "none";
+        loginBtn.style.cursor = "default";
+      }
+    } else {
+      // Если пользователь ещё не входил или разлогинился — только тогда включаем всплывающее окно
+      if (loginBtn) {
+        loginBtn.innerHTML = `Войти через Google`;
+        loginBtn.style.background = ""; // Возвращаем стандартный цвет из CSS
+      }
+      initGoogleOneTap();
+    }
+  });
+
+} else {
+  console.log("Разработка локально: Firebase функции лайков и авторизации отключены.");
+}
 
 }); // Самая последняя закрывающая скобка DOMContentLoaded твоего сайта
