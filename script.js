@@ -803,9 +803,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     favBtn.addEventListener('click', async (e) => {
       e.stopPropagation(); // чтобы карточка не открывалась при клике
-      if (likeBtn.classList.contains('is-loading')) return; // Если кнопка уже нажата — игнорируем новые клики
-      likeBtn.classList.add('is-loading');
-      setTimeout(() => likeBtn.classList.remove('is-loading'), 300); // Разрешаем клик только через 300мс
+      if (favBtn.classList.contains('is-loading')) return; // Если кнопка уже нажата — игнорируем новые клики
+      favBtn.classList.add('is-loading');
+      setTimeout(() => favBtn.classList.remove('is-loading'), 300); // Разрешаем клик только через 300мс
 
       if (localFavorites.includes(slug)) {
         localFavorites = localFavorites.filter(id => id !== slug);
