@@ -4,7 +4,7 @@
 // Импортируем Firebase модули напрямую в скрипт
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithCredential, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, increment, arrayUnion, arrayRemove, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const searchInput = document.getElementById('search');
 const filterLoader = document.getElementById('filter-loader');
@@ -803,7 +803,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     favBtn.addEventListener('click', async (e) => {
       e.stopPropagation(); // чтобы карточка не открывалась при клике
-      
+      if (likeBtn.classList.contains('is-loading')) return; // Если кнопка уже нажата — игнорируем новые клики
+      likeBtn.classList.add('is-loading');
+      setTimeout(() => likeBtn.classList.remove('is-loading'), 300); // Разрешаем клик только через 300мс
+
       if (localFavorites.includes(slug)) {
         localFavorites = localFavorites.filter(id => id !== slug);
         if (currentUser) {
@@ -823,52 +826,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- ОБРАБОТКА НАЖАТИЯ НА СЕРДЕЧКО (ЛАЙК) ---
   modItems.forEach(li => {
-    const slug = li.getAttribute('data-slug');
-    const likeBtn = li.querySelector('.btn-like');
-    if (!likeBtn) return;
+  const slug = li.getAttribute('data-slug');
+  const likeBtn = li.querySelector('.btn-like');
+  if (!likeBtn) return;
 
-    likeBtn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      
-      // Автоматически подхватываем пользователя из Firebase, если глобальная переменная пуста
-      if (!currentUser && auth.currentUser) {
-          currentUser = auth.currentUser;
-      }
+  likeBtn.addEventListener('click', async (e) => {
+    e.stopPropagation();
+    if (likeBtn.classList.contains('is-loading')) return; // Если кнопка уже нажата — игнорируем новые клики
+    likeBtn.classList.add('is-loading');
+    setTimeout(() => likeBtn.classList.remove('is-loading'), 300); // Разрешаем клик только через 300мс
 
-      if (!currentUser) {
-          alert("Пожалуйста, авторизуйтесь через Google в один клик вверху страницы, чтобы поставить лайк!");
-          // Подсвечиваем кнопку входа...
-          document.getElementById('google-login-btn').style.boxShadow = "0 0 15px #ff4545";
-          return;
-      }
 
-      const docRef = doc(db, "likes", slug);
-      const docSnap = await getDoc(docRef);
-      const isAlreadyLiked = docSnap.exists() && docSnap.data().users?.includes(currentUser?.uid);
+    if (!currentUser && auth.currentUser) {
+      currentUser = auth.currentUser;
+    }
 
+    if (!currentUser) {
+      alert("Пожалуйста, авторизуйтесь через Google в один клик вверху страницы, чтобы поставить лайк!");
+      document.getElementById('google-login-btn').style.boxShadow = "0 0 15px #ff4545";
+      return;
+    }
+
+    const docRef = doc(db, "likes", slug);
+    const docSnap = await getDoc(docRef);
+    const isAlreadyLiked = docSnap.exists() && docSnap.data().users?.includes(currentUser?.uid);
+
+    try {
       if (isAlreadyLiked) {
-        // Убираем лайк
-        await setDoc(docRef, {
+        // Убираем лайк (безопасный updateDoc)
+        await updateDoc(docRef, {
           count: increment(-1),
-          users: arrayRemove(currentUser?.uid)
-        }, { merge: true });
+          users: arrayRemove(currentUser.uid),
+          lastUpdated: serverTimestamp() // Пишем время запроса для защиты от кликера
+        });
         likeBtn.classList.remove('is-liked');
-        likeBtn.querySelector('.heart-icon').textContent = "🤍";
+        likeBtn.querySelector('.heart-icon').textContent = " ";
         globalLikesData[slug]--;
       } else {
-        // Ставим лайк
-        await setDoc(docRef, {
-          count: increment(1),
-          users: arrayUnion(currentUser?.uid)
-        }, { merge: true });
+        // Ставим лайк. Если документа еще нет (первый лайк), используем setDoc
+        if (!docSnap.exists()) {
+          await setDoc(docRef, {
+            count: 1,
+            users: [currentUser.uid],
+            lastUpdated: serverTimestamp()
+          });
+        } else {
+          await updateDoc(docRef, {
+            count: increment(1),
+            users: arrayUnion(currentUser.uid),
+            lastUpdated: serverTimestamp()
+          });
+        }
         likeBtn.classList.add('is-liked');
-        likeBtn.querySelector('.heart-icon').textContent = "❤️";
+        likeBtn.querySelector('.heart-icon').textContent = "❤";
         globalLikesData[slug]++;
       }
-      
       likeBtn.querySelector('.like-count').textContent = globalLikesData[slug];
+    } catch (err) {
+      console.warn("Слишком частые клики! Запрос заблокирован сервером.");
+    }
     });
   });
+
 
     // --- ИНТЕГРАЦИЯ С ТВОЕЙ СИСТЕМОЙ СОРТИРОВКИ И ФИЛЬТРАЦИИ ---
   let currentSortMode = 'ecosystem'; 
@@ -1064,7 +1083,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // СТАРТОВЫЙ ЗАПУСК ВСЕХ КОМПОНЕНТОВ СИСТЕМЫ
-  updateFavoritesUI();
-  loadGlobalLikes();
-  initGoogleOneTap(); 
+  updateFavoritesUI(); // Локальное избранное из localStorage будет работать всегда!
+
+  // Проверяем: если мы НЕ на локальном компьютере, то подгружаем данные из Firebase
+  if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
+    loadGlobalLikes();
+    initGoogleOneTap();
+  } else {
+    console.log("Разработка локально: Firebase функции лайков и авторизации отключены.");
+  }
+
 }); // Самая последняя закрывающая скобка DOMContentLoaded твоего сайта
