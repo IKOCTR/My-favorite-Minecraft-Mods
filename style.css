@@ -25,7 +25,7 @@ body {
   width: 100%;
   min-height: 100vh;
   position: relative;
-  /* 🔥 ЖЕСТКИЙ ФИКС: visible запрещает тегу body создавать свои собственные (вторые) скроллбары */
+  /* 🔥 ЖЕСТКИЙ ФИКС: visible запрещает тегу body создавать свои собственные (вторые) скролбары */
   overflow: visible !important; 
 }
 
@@ -374,7 +374,7 @@ body {
 
 .options-list {
   max-height: 200px; /* Высота прокрутки списка */
-  overflow-y: auto;   /* Включает скроллбар */
+  overflow-y: auto;   /* Включает скролбар */
 }
 
 .option-item {
@@ -1735,4 +1735,9 @@ button.note-btn {
 }
 .info-icon.google-help-icon .categories-help-box::-webkit-scrollbar-thumb:hover {
   background: #f39c12 !important;
+}
+
+i{
+  opacity: 70%;
+  font-style: italic;
 }

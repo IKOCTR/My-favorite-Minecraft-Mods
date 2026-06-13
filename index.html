@@ -1,10 +1,11 @@
+<!-- cspell:enable -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <link rel="icon" href="icons/header_logo.jpg" type="image/png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Моды IK27 [P-r v2]</title>
+  <title>Моды IK27 [P-r v4]</title>
   <!-- ПОДКЛЮЧАЕМ ВНЕШНИЙ CSS -->
   <link rel="stylesheet" href="style.css">
   <!-- Скрипт авторизации Google One Tap -->
@@ -19,7 +20,7 @@
         <img src="icons/logo.jpg" alt="IK" class="header-logo">
         <div class="header-title-block">
           <span class="header-nickname">IKOCTR 27</span>
-          <h1 class="header-site-title">Список самых крутых модов [Pre-release v2]</h1>
+          <h1 class="header-site-title">Список самых крутых модов [Pre-release v4]</h1>
         </div>
       </div>
       
@@ -122,7 +123,7 @@
                 <p>• <b>Fabric:</b> Современный, легкий и быстрый лоадер.</p>
                 <p>• <b>NeoForge:</b> Новый стандарт, заменяет Forge на 1.20+.</p>
                 <p>• <b>Quilt:</b> Ответвление от Fabric с его полной поддержкой.</p>
-                <p>• <b>Остальное:</b> Плгины для сервера</p>
+                <p>• <b>Остальное:</b> Плагины для сервера</p>
               </div>
             </div>
           </div>
@@ -220,7 +221,7 @@
                   Моды сортируются по алфавиту. 
                   Это правило игнорируют моды АДДОНЫ. 
                   Они всегда следуют за своим родителем 
-                  (модом по отношению которому они и являються аддоном)
+                  (модом по отношению которому они и являются аддоном)
                 </p>
                 <p>
                   <b>По популярности:</b> Моды сортируются по количеству лайков (все просто).
@@ -257,7 +258,7 @@
               <div class="categories-help-box">
                 <b>⚠️ Проблемы с входом через Google?</b>
                 <p><b>1. Отключите Zapret:</b> Если вы находитесь в РФ, перед авторизацией обязательно временно отключите утилиты обхода блокировок (Zapret / GoodbyeDPI), иначе скрипты Google не смогут загрузиться. После авторизации браузер запомнит вас и вы сможете заходить на сайт и с Zapret</p>
-                <p><b>2. Если закрыли окно (нажали крестик):</b> Google блокирует повторный автоматический показ окошкка с авторизацией. Обычный F5 не поможет! Нажмите на иконку настроек сайта слева в адресной строке браузера (возле названия сайта) и <u>разрешите сторонний вход / регистрацию</u> (сбросьте запрет), либо очистите файлы cookie.</p>
+                <p><b>2. Если закрыли окно (нажали крестик):</b> Google блокирует повторный автоматический показ окошка с авторизацией. Обычный F5 не поможет! Нажмите на иконку настроек сайта слева в адресной строке браузера (возле названия сайта) и <u>разрешите сторонний вход / регистрацию</u> (сбросьте запрет), либо очистите файлы cookie.</p>
               </div>
             </div>
 
@@ -271,6 +272,178 @@
 
     <!-- СПИСОК ВАШИХ МОДОВ (li пишем ручками здесь) -->
     <ul id="mods-list" class="my-grid-list">
+
+      <!-- Create -->
+      <li data-slug="create" data-side="both" data-custom-tags="Контент" data-sort-group="create" data-parent="">
+       <img src="icons/404.png" alt="Create" class="mod-icon">
+        <!-- Панель кнопок лайков и избранного -->
+        <div class="mod-interaction-panel">
+          <button type="button" class="interaction-btn btn-favorite" title="Добавить в избранное">
+            <span class="star-icon">☆</span>
+          </button>
+          <button type="button" class="interaction-btn btn-like" title="Лайкнуть мод">
+            <span class="heart-icon">🤍</span>
+            <span class="like-count">0</span>
+          </button>
+        </div>
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Create</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент + Сервер</span>
+            <span class="api-tags"></span>
+            <span class="tag custom">Контент</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/create" target="_blank" class="modrinth-btn">Modrinth</a>
+          <button type="button" class="note-btn" data-tooltip="Открыть справку от IK 27">?</button>
+        </div>
+        <div class="info-text">
+          <p class="mod-desc">Добавляет в игру шестерни, валы и конвееры - которые можно приводить в движение, а вместе с ними и механизмы. Также новые декоративные блоки, поезда и многое другое!</p>
+        </div>
+        <!-- Блок расширенных заметок -->
+        <div class="mod-full-notes" style="display: none;">
+          <h2 style="margin-top:0; color:#00ff88; font-size:22px; font-family:sans-serif;">Справка о Create</h2>
+          <p>Ниже представленные видео с контентом Create и гайд по нему. На его канале можете найти плейлист с гайдами по остальным механикам и обзор обновлений Create</p>
+          
+          <!-- Шаблон: Видео с YouTube (подставьте свою ссылку на видео) -->
+          <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin:15px 0; border-radius:8px; background:#000;">
+            <iframe src="https://www.youtube.com/embed/XvJIYBE8RPA?si=_zhWsD5Xlb9hcJIE"  style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+          </div>
+        </div>
+      </li>
+
+      <!-- Create Aeronautics -->
+      <li data-slug="create-aeronautics" data-side="both" data-custom-tags="Контент, Аддон" data-sort-group="create" data-parent="create">
+        <div class="mod-icon-container">
+          <img src="icons/404.png" alt="Иконка" class="mod-icon">
+          <img src="" alt="" class="parent-icon">
+        </div>
+        <!-- Панель кнопок лайков и избранного -->
+        <div class="mod-interaction-panel">
+          <button type="button" class="interaction-btn btn-favorite" title="Добавить в избранное">
+            <span class="star-icon">☆</span>
+          </button>
+          <button type="button" class="interaction-btn btn-like" title="Лайкнуть мод">
+            <span class="heart-icon">🤍</span>
+            <span class="like-count">0</span>
+          </button>
+        </div>
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Create Aeronautics</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент + Сервер</span>
+            <span class="api-tags"></span>
+            <span class="tag custom">Контент</span>
+            <span class="tag custom">Аддон</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/create-aeronautics" target="_blank" class="modrinth-btn">Modrinth</a>
+          <button type="button" class="note-btn" data-tooltip="Открыть справку от IK 27">?</button>
+        </div>
+        <div class="info-text">
+          <p class="mod-desc">Стройте что угодно - от дирижаблей до самолетов и автомобилей!</p>
+        </div>
+        <!-- Блок расширенных заметок -->
+        <div class="mod-full-notes" style="display: none;">
+          <h2 style="margin-top:0; color:#00ff88; font-size:22px; font-family:sans-serif;">Справка о Create Aeronautics</h2>
+          <p>Потрясающий мод добавляющий в связке с Create возможность создавать машины, самолеты, дирижабли, буры, лодки (бета) и т.д. Хотите построить дрон с автопилотом - запросто! Хотите построить вертолет со сбрасываемым ТНТ? ПФФФ делай, тебя ни кто не остановит!</p>
+          
+          <!-- Шаблон: Зеленая заметка от IK 27 -->
+          <div style="background: rgba(0, 255, 136, 0.1); border-left: 4px solid #00ff88; padding: 12px 15px; border-radius: 0 8px 8px 0; margin: 15px 0; color: #fff;">
+            <strong>Шейдеры:</strong> Для корректной работы шейдеров <i style="opacity: 70%; font-style: italic;">(а именно чтобы ФПС не упал до 10 кадров)</i> установите оптимизационные моды!
+          </div>
+          
+          <!-- Шаблон: Видео с YouTube (подставьте свою ссылку на видео) -->
+          <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin:15px 0; border-radius:8px; background:#000;">
+            <iframe src="https://www.youtube.com/embed/oGClViYnUu4?si=7tuBULO_b-E4BUGW" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+          </div>
+        </div>
+      </li>
+
+      <!-- Create Aeronautics: Compatability -->
+      <li data-slug="create-aeronautics-compatability" data-side="both" data-custom-tags="Аддон" data-sort-group="create" data-parent="create-aeronautics">
+        <div class="mod-icon-container">
+        <img src="icons/404.png" alt="Иконка" class="mod-icon">
+        <img src="" alt="" class="parent-icon">
+      </div>
+        <!-- Панель кнопок лайков и избранного -->
+        <div class="mod-interaction-panel">
+          <button type="button" class="interaction-btn btn-favorite" title="Добавить в избранное">
+            <span class="star-icon">☆</span>
+          </button>
+          <button type="button" class="interaction-btn btn-like" title="Лайкнуть мод">
+            <span class="heart-icon">🤍</span>
+            <span class="like-count">0</span>
+          </button>
+        </div>
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Create Aeronautics: Compatability</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент + Сервер</span>
+            <span class="api-tags"></span>
+            <span class="tag custom">Оптимизация</span>
+            <span class="tag custom">Аддон</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/create-aeronautics-compatability" target="_blank" class="modrinth-btn">Modrinth</a>
+          
+        </div>
+        <div class="info-text">
+          <p class="mod-desc">Добавляет совместимость для модов, которые не работают с Aeronautics и исправляет небольшие баги.</p>
+        </div>
+      </li>
+
+      <!-- Create Crafts & Additions -->
+      <li data-slug="createaddition" data-side="both" data-custom-tags="qol, Контент, Аддон" data-sort-group="create" data-parent="create">
+        <div class="mod-icon-container">
+        <img src="icons/404.png" alt="Иконка" class="mod-icon">
+        <img src="" alt="" class="parent-icon">
+      </div>
+        <!-- Панель кнопок лайков и избранного -->
+        <div class="mod-interaction-panel">
+          <button type="button" class="interaction-btn btn-favorite" title="Добавить в избранное">
+            <span class="star-icon">☆</span>
+          </button>
+          <button type="button" class="interaction-btn btn-like" title="Лайкнуть мод">
+            <span class="heart-icon">🤍</span>
+            <span class="like-count">0</span>
+          </button>
+        </div>
+        <div class="mod-meta-wrapper">
+          <h3 class="mod-title">Create Crafts & Additions</h3>
+          <div class="mod-tags">
+            <span class="tag side">Клиент + Сервер</span>
+            <span class="api-tags"></span>
+            <span class="tag custom">qol</span>
+            <span class="tag custom">Контент</span>
+            <span class="tag custom">Аддон</span>
+          </div>
+          <div class="live-versions">Версии: <span>загрузка...</span></div>
+        </div>
+        <div class="mod-links-group">
+          <a href="https://modrinth.com/mod/createaddition" target="_blank" class="modrinth-btn">Modrinth</a>
+          <button type="button" class="note-btn" data-tooltip="Открыть справку от IK 27">?</button>
+        </div>
+        <div class="info-text">
+          <p class="mod-desc">Create Crafts & Additions расширяет Create и действует как мост между электричеством и кинетической энергией.</p>
+        </div>
+        <!-- Блок расширенных заметок -->
+        <div class="mod-full-notes" style="display: none;">
+          <h2 style="margin-top:0; color:#00ff88; font-size:22px; font-family:sans-serif;">Справка о моде Create Crafts & Additions</h2>
+          <p>Мод позволяющий превращать вращательную  энергию в электрическую для удобной  транспортировки, а также накопления с помощью аккумуляторов!</p>
+          
+          <!-- Шаблон: Видео с YouTube (подставьте свою ссылку на видео) -->
+          <div class="video-container" style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden; margin:15px 0; border-radius:8px; background:#000;">
+            <iframe src="https://www.youtube.com/embed/9j3ZtHa5pE8?si=3ORPAKdd41Q4YgPo" style="position:absolute; top:0; left:0; width:100%; height:100%; border:0;" allowfullscreen></iframe>
+          </div>
+        </div>
+      </li>
 
       <!-- Distant Horizons -->
       <li data-slug="distanthorizons" data-side="client" data-custom-tags="Оптимизация, Визуал" data-sort-group="distanthorizons" data-parent="">
